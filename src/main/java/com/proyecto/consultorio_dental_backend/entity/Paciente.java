@@ -1,9 +1,6 @@
 package com.proyecto.consultorio_dental_backend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
@@ -16,20 +13,19 @@ public class Paciente {
 
     @Column(unique = true)
     private String dni;
-
     private String nombres;
-
     private String apellidoPaterno;
-
     private String apellidoMaterno;
-
     private LocalDate fechaNacimiento;
-
     private String telefono1;
-
     private String telefono2;
-
     private Integer cantidadReferidos;
+    private String ocupacion;
+    private String estado;
+
+    @OneToOne
+    @JoinColumn(name = "direccion_id" )
+    private Direccion direccion;
 
     public Paciente(){
 
@@ -105,5 +101,29 @@ public class Paciente {
 
     public void setCantidadReferidos(Integer cantidadReferidos) {
         this.cantidadReferidos = cantidadReferidos;
+    }
+
+    public Direccion getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getOcupacion() {
+        return ocupacion;
+    }
+
+    public void setOcupacion(String ocupacion) {
+        this.ocupacion = ocupacion;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }
