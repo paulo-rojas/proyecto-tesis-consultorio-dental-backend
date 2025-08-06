@@ -2,7 +2,6 @@ package com.proyecto.consultorio_dental_backend.controller;
 
 
 import com.proyecto.consultorio_dental_backend.dto.DireccionDTO;
-import com.proyecto.consultorio_dental_backend.entity.Direccion;
 import com.proyecto.consultorio_dental_backend.service.DireccionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
