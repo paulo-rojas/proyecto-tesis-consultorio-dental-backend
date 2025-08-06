@@ -1,7 +1,6 @@
 package com.proyecto.consultorio_dental_backend.service;
 
 import com.proyecto.consultorio_dental_backend.dto.DireccionDTO;
-import com.proyecto.consultorio_dental_backend.entity.Direccion;
 import com.proyecto.consultorio_dental_backend.repository.DireccionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +15,12 @@ public class DireccionServiceImpl implements DireccionService{
 
     @Override
     public Optional<DireccionDTO> findById(Integer id) {
-        Optional<Direccion> direccion = direccionRepository.findById(id);
-        return Optional.of(new DireccionDTO(direccion.get().getDescripcion(),
-                direccion.get().getDistrito().getNombre(),
-                direccion.get().getDistrito().getProvincia().getNombre(),
-                direccion.get().getDistrito().getProvincia().getDepartamento().getNombre()));
+        return direccionRepository.findById(id)
+                .map(direccion -> new DireccionDTO(
+                        direccion.getDescripcion(),
+                        direccion.getDistrito().getNombre(),
+                        direccion.getDistrito().getProvincia().getNombre(),
+                        direccion.getDistrito().getProvincia().getDepartamento().getNombre()
+                ));
     }
 }
