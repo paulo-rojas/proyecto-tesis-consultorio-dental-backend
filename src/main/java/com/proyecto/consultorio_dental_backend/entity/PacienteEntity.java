@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table
-public class Paciente {
+public class PacienteEntity {
 
     @Id
     private Integer id;
@@ -25,9 +25,9 @@ public class Paciente {
 
     @OneToOne
     @JoinColumn(name = "direccion_id" )
-    private Direccion direccion;
+    private DireccionEntity direccion;
 
-    public Paciente(){
+    public PacienteEntity(){
 
     }
 
@@ -103,11 +103,11 @@ public class Paciente {
         this.cantidadReferidos = cantidadReferidos;
     }
 
-    public Direccion getDireccion() {
+    public DireccionEntity getDireccion() {
         return direccion;
     }
 
-    public void setDireccion(Direccion direccion) {
+    public void setDireccion(DireccionEntity direccion) {
         this.direccion = direccion;
     }
 

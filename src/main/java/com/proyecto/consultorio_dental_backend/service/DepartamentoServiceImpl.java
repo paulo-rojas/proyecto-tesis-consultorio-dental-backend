@@ -1,6 +1,6 @@
 package com.proyecto.consultorio_dental_backend.service;
 
-import com.proyecto.consultorio_dental_backend.entity.Departamento;
+import com.proyecto.consultorio_dental_backend.entity.DepartamentoEntity;
 import com.proyecto.consultorio_dental_backend.repository.DepartamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +15,12 @@ public class DepartamentoServiceImpl implements DepartamentoService{
     private DepartamentoRepository departamentoRepository;
 
     @Override
-    public Optional<Departamento> findById(Integer id) {
+    public Optional<DepartamentoEntity> findById(Integer id) {
         return departamentoRepository.findById(id);
     }
 
     @Override
-    public List<Departamento> findAll() {
+    public List<DepartamentoEntity> findAll() {
         return departamentoRepository.findAll();
     }
 }

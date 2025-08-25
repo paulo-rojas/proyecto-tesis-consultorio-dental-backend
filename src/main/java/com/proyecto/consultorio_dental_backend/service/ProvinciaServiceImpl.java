@@ -1,6 +1,6 @@
 package com.proyecto.consultorio_dental_backend.service;
 
-import com.proyecto.consultorio_dental_backend.entity.Provincia;
+import com.proyecto.consultorio_dental_backend.entity.ProvinciaEntity;
 import com.proyecto.consultorio_dental_backend.repository.ProvinciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class ProvinciaServiceImpl implements ProvinciaService{
     private ProvinciaRepository provinciaRepository;
 
     @Override
-    public Optional<Provincia> findById(Integer id) {
+    public Optional<ProvinciaEntity> findById(Integer id) {
         return provinciaRepository.findById(id);
     }
 
@@ -27,7 +27,7 @@ public class ProvinciaServiceImpl implements ProvinciaService{
     */
 
     @Override
-    public List<Provincia> findAllByDepartamentoId(Integer id) {
+    public List<ProvinciaEntity> findAllByDepartamentoId(Integer id) {
         return provinciaRepository.findAllByDepartamentoId(id);
     }
 }

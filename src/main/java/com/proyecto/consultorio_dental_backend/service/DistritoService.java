@@ -1,15 +1,16 @@
 package com.proyecto.consultorio_dental_backend.service;
 
-import com.proyecto.consultorio_dental_backend.entity.Distrito;
+import com.proyecto.consultorio_dental_backend.dto.DistritoDTO;
+import com.proyecto.consultorio_dental_backend.entity.DistritoEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface DistritoService {
 
-    Optional<Distrito> findById(Integer id);
+    Optional<DistritoDTO> findById(Integer id);
 
-    List<Distrito> findAllByProvinciaId (Integer provincia_id);
+    List<DistritoDTO> findAllByProvinciaId (Integer provincia_id);
 
-    List<Distrito> findAllByDepartamentoId(Integer provinciaId);
+    List<DistritoDTO> findAllByDepartamentoId(Integer provinciaId);
 }

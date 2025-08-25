@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table
-public class Distrito {
+public class DistritoEntity {
 
     @Id
     private Integer id;
@@ -12,13 +12,13 @@ public class Distrito {
 
     @ManyToOne
     @JoinColumn(name = "provincia_id" )
-    private Provincia provincia;
+    private ProvinciaEntity provincia;
 
-    public Distrito (){
+    public DistritoEntity(){
     }
 
 
-    public Distrito (String nombre){
+    public DistritoEntity(String nombre){
         this.nombre = nombre;
     }
 
@@ -38,11 +38,11 @@ public class Distrito {
         this.nombre = nombre;
     }
 
-    public Provincia getProvincia() {
+    public ProvinciaEntity getProvincia() {
         return provincia;
     }
 
-    public void setProvincia(Provincia provincia) {
+    public void setProvincia(ProvinciaEntity provincia) {
         this.provincia = provincia;
     }
 }

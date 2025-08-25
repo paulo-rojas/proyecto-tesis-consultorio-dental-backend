@@ -6,17 +6,17 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table
-public class Departamento {
+public class DepartamentoEntity {
 
     @Id
     private Integer id;
     private String nombre;
 
-    public Departamento (){
+    public DepartamentoEntity(){
 
     }
 
-    public Departamento (String nombre){
+    public DepartamentoEntity(String nombre){
         this.nombre = nombre;
     }
 

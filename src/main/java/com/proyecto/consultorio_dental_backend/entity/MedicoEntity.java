@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table
-public class Medico {
+public class MedicoEntity {
 
     @Id
     private Integer id;
@@ -21,5 +21,5 @@ public class Medico {
 
     @OneToOne
     @JoinColumn(name = "direccion_id" )
-    private Direccion direccion;
+    private DireccionEntity direccion;
 }

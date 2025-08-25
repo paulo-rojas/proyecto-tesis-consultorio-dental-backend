@@ -1,8 +1,7 @@
 package com.proyecto.consultorio_dental_backend.controller;
 
-import com.proyecto.consultorio_dental_backend.entity.Provincia;
+import com.proyecto.consultorio_dental_backend.entity.ProvinciaEntity;
 import com.proyecto.consultorio_dental_backend.service.ProvinciaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +21,12 @@ public class ProvinciaController {
     }
 
     @GetMapping("/find-all-by-departamento-id/{departamento_id}")
-    public List<Provincia> findAllByDepartamentoId(@PathVariable Integer departamento_id){
+    public List<ProvinciaEntity> findAllByDepartamentoId(@PathVariable Integer departamento_id){
         return provinciaService.findAllByDepartamentoId(departamento_id);
     }
 
     @GetMapping("/find-by-id/{id}")
-    public Optional<Provincia> findById (@PathVariable Integer id){
+    public Optional<ProvinciaEntity> findById (@PathVariable Integer id){
         return provinciaService.findById(id);
     }
 
