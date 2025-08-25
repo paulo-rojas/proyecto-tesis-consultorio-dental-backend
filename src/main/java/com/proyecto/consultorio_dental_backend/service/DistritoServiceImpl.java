@@ -23,4 +23,9 @@ public class DistritoServiceImpl implements DistritoService{
     public List<Distrito> findAllByProvinciaId(Integer provincia_id) {
         return distritoRepository.findByProvinciaId(provincia_id);
     }
+
+    @Override
+    public List<Distrito> findAllByDepartamentoId(Integer provinciaId) {
+        return List.of();
+    }
 }

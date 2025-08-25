@@ -8,5 +8,8 @@ import java.util.Optional;
 public interface DistritoService {
 
     Optional<Distrito> findById(Integer id);
+
     List<Distrito> findAllByProvinciaId (Integer provincia_id);
+
+    List<Distrito> findAllByDepartamentoId(Integer provinciaId);
 }

@@ -12,20 +12,23 @@ import java.util.Optional;
 @RequestMapping("api/pacientes")
 public class PacienteController {
 
-    @Autowired
-    PacienteService pacienteService;
+    private final PacienteService pacienteService;
+
+    public PacienteController(PacienteService pacienteService) {
+        this.pacienteService = pacienteService;
+    }
 
     @GetMapping
     List<Paciente> findAll(){
        return pacienteService.findAll();
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/find-by-id/{id}")
     Optional<Paciente> findById(@PathVariable Integer id){
         return pacienteService.findById(id);
     }
 
-    @GetMapping("/dni/{dni}")
+    @GetMapping("/find-by-dni/{dni}")
     Optional<Paciente> findByDni(@PathVariable String dni){
         return pacienteService.findByDni(dni);
     }

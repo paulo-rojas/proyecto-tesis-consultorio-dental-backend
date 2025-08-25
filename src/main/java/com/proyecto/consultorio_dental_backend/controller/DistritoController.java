@@ -2,7 +2,6 @@ package com.proyecto.consultorio_dental_backend.controller;
 
 import com.proyecto.consultorio_dental_backend.entity.Distrito;
 import com.proyecto.consultorio_dental_backend.service.DistritoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,21 +11,27 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/provincias/{provincia_id}/distritos")
+@RequestMapping("/api/distritos")
 public class DistritoController {
 
-    @Autowired
-    private DistritoService distritoService;
+    private final DistritoService distritoService;
 
-    @GetMapping
-    public List<Distrito> findAllByDepartamentoId(@PathVariable Integer provincia_id){
+    public DistritoController(DistritoService distritoService) {
+        this.distritoService = distritoService;
+    }
+
+    @GetMapping("/find-all-by-departamento-id/{departamento_id}")
+    public List<Distrito> findAllByDepartamentoId(@PathVariable Integer departamento_id){
+        return distritoService.findAllByDepartamentoId(departamento_id);
+    }
+
+    @GetMapping("/find-all-by-provincia-id/{provincia_id}")
+    public List<Distrito> findAllByProvinciaId(@PathVariable Integer provincia_id){
         return distritoService.findAllByProvinciaId(provincia_id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/find-by-id/{id}")
     public Optional<Distrito> findById (@PathVariable Integer id){
         return distritoService.findById(id);
     }
-
-
 }

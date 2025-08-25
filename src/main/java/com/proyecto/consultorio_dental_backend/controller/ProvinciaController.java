@@ -12,18 +12,21 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/departamentos/{departamento_id}/provincias")
+@RequestMapping("/api/provincias")
 public class ProvinciaController {
 
-    @Autowired
-    private ProvinciaService provinciaService;
+    private final ProvinciaService provinciaService;
 
-    @GetMapping
+    public ProvinciaController(ProvinciaService provinciaService) {
+        this.provinciaService = provinciaService;
+    }
+
+    @GetMapping("/find-all-by-departamento-id/{departamento_id}")
     public List<Provincia> findAllByDepartamentoId(@PathVariable Integer departamento_id){
         return provinciaService.findAllByDepartamentoId(departamento_id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/find-by-id/{id}")
     public Optional<Provincia> findById (@PathVariable Integer id){
         return provinciaService.findById(id);
     }
