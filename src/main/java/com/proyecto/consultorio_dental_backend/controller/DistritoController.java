@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,24 +24,39 @@ public class DistritoController {
         this.distritoService = distritoService;
     }
 
-    @GetMapping("/find-all-by-departamento-id/{departamento_id}")
-    public ResponseEntity<List<DistritoDTO>> findAllByDepartamentoId(@PathVariable Integer departamento_id){
 
-        if (!CommonUtils.isValidId(departamento_id)){
+    @GetMapping("/find-by-id/{id}")
+    public ResponseEntity<DistritoDTO> findById(@PathVariable Integer id) {
+
+        if (CommonUtils.isValidId(id)) {
             return ResponseEntity.badRequest().build();
         }
 
-        List<DistritoDTO> distritos = distritoService.findAllByDepartamentoId(departamento_id);
+        return distritoService.findById(id)
+                .map(dis -> ResponseEntity.ok().body(dis))
+                .orElseGet(() -> ResponseEntity.noContent().build());
+    }
 
-        return distritos.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok().body(distritos);
+    @GetMapping("/find-all")
+    public ResponseEntity<List<DistritoDTO>> findAll(){
+
+        List<DistritoDTO> distritos = distritoService.findAll();
+
+        return Optional.of(distritos)
+                .filter(list -> !list.isEmpty())
+                .map(dis -> ResponseEntity.ok().body(dis))
+                .orElseGet(() -> ResponseEntity.noContent().build());
     }
 
     @GetMapping("/find-all-by-provincia-id/{provincia_id}")
     public ResponseEntity<List<DistritoDTO>> findAllByProvinciaId(@PathVariable Integer provincia_id){
 
-        if (!CommonUtils.isValidId(provincia_id)){
+        /*
+        if (CommonUtils.isValidId(provincia_id)){
             return ResponseEntity.badRequest().build();
         }
+
+         */
 
         List<DistritoDTO> distritos = distritoService.findAllByProvinciaId(provincia_id);
 
@@ -52,17 +66,17 @@ public class DistritoController {
                 .orElseGet(() -> ResponseEntity.noContent().build());
     }
 
+    @GetMapping("/find-all-by-departamento-id/{departamento_id}")
+    public ResponseEntity<List<DistritoDTO>> findAllByDepartamentoId(@PathVariable Integer departamento_id){
 
-    @GetMapping("/find-by-id/{id}")
-    public ResponseEntity<?> findById (@PathVariable Integer id){
-
-        if (!CommonUtils.isValidId(id)){
+        if (CommonUtils.isValidId(departamento_id)){
             return ResponseEntity.badRequest().build();
         }
 
-        return distritoService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.noContent().build());
+        List<DistritoDTO> distritos = distritoService.findAllByDepartamentoId(departamento_id);
 
+        return distritos.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok().body(distritos);
     }
+
+
 }

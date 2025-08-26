@@ -40,4 +40,12 @@ public class DistritoServiceImpl implements DistritoService{
                 .map(DistritoMapper::toDTO)
                 .toList();
     }
+
+    @Override
+    public List<DistritoDTO> findAll() {
+        return distritoRepository.findAll()
+                .stream()
+                .map(dis -> DistritoMapper.toDTO(dis))
+                .toList();
+    }
 }

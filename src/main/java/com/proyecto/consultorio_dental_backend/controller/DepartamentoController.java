@@ -35,7 +35,7 @@ public class DepartamentoController {
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> findById(@PathVariable Integer id){
 
-        if (!CommonUtils.isValidId(id)){
+        if (CommonUtils.isValidId(id)){
             return ResponseEntity.badRequest().build();
         }
 

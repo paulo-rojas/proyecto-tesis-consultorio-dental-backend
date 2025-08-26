@@ -3,7 +3,7 @@ package com.proyecto.consultorio_dental_backend.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table
+@Table(name = "distrito")
 public class DistritoEntity {
 
     @Id

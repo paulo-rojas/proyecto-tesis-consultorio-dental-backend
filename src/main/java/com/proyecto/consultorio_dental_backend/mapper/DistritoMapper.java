@@ -10,7 +10,8 @@ public class DistritoMapper {
     public static DistritoDTO toDTO(DistritoEntity distritoEntity){
         DistritoDTO distritoDTO = new DistritoDTO();
         distritoDTO.setId(distritoEntity.getId());
-        distritoDTO.setNombre(distritoDTO.getNombre());
+        distritoDTO.setNombre(distritoEntity.getNombre());
+        distritoDTO.setProvincia(distritoEntity.getProvincia().getNombre());
         return distritoDTO;
     }
 }
