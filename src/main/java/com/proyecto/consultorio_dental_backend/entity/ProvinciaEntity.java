@@ -16,11 +16,12 @@ import lombok.Setter;
 public class ProvinciaEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nombre;
 
     @ManyToOne
-    @JoinColumn(name = "departamento_id") // nombre de la columna en la tabla 'provincia'
+    @JoinColumn(name = "departamento_id")
     private DepartamentoEntity departamento;
 
 }

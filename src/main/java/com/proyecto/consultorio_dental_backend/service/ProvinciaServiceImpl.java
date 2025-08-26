@@ -1,6 +1,8 @@
 package com.proyecto.consultorio_dental_backend.service;
 
+import com.proyecto.consultorio_dental_backend.dto.ProvinciaDTO;
 import com.proyecto.consultorio_dental_backend.entity.ProvinciaEntity;
+import com.proyecto.consultorio_dental_backend.mapper.ProvinciaMapper;
 import com.proyecto.consultorio_dental_backend.repository.ProvinciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,19 +17,17 @@ public class ProvinciaServiceImpl implements ProvinciaService{
     private ProvinciaRepository provinciaRepository;
 
     @Override
-    public Optional<ProvinciaEntity> findById(Integer id) {
-        return provinciaRepository.findById(id);
+    public Optional<ProvinciaDTO> findById(Integer id) {
+        return provinciaRepository.findById(id)
+                .map(ProvinciaMapper::toDTO);
     }
 
-    /*
-    @Override
-    public List<Provincia> findAll() {
-        return provinciaRepository.findAll();
-    }
-    */
 
     @Override
-    public List<ProvinciaEntity> findAllByDepartamentoId(Integer id) {
-        return provinciaRepository.findAllByDepartamentoId(id);
+    public List<ProvinciaDTO> findAllByDepartamentoId(Integer id) {
+        return provinciaRepository.findAllByDepartamentoId(id)
+                .stream()
+                .map(ProvinciaMapper::toDTO)
+                .toList();
     }
 }

@@ -15,6 +15,7 @@ import lombok.Setter;
 public class DistritoEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nombre;
 

@@ -51,12 +51,6 @@ public class DistritoController {
     @GetMapping("/find-all-by-provincia-id/{provincia_id}")
     public ResponseEntity<List<DistritoDTO>> findAllByProvinciaId(@PathVariable Integer provincia_id){
 
-        /*
-        if (CommonUtils.isValidId(provincia_id)){
-            return ResponseEntity.badRequest().build();
-        }
-
-         */
 
         List<DistritoDTO> distritos = distritoService.findAllByProvinciaId(provincia_id);
 
