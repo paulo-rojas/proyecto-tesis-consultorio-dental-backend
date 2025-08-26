@@ -3,7 +3,15 @@ package com.proyecto.consultorio_dental_backend.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "departamento")
 public class DepartamentoEntity {
@@ -12,27 +20,4 @@ public class DepartamentoEntity {
     private Integer id;
     private String nombre;
 
-    public DepartamentoEntity(){
-
-    }
-
-    public DepartamentoEntity(String nombre){
-        this.nombre = nombre;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 }
