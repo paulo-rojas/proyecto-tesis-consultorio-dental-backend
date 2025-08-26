@@ -12,6 +12,7 @@ public class DistritoMapper {
         distritoDTO.setId(distritoEntity.getId());
         distritoDTO.setNombre(distritoEntity.getNombre());
         distritoDTO.setProvincia(distritoEntity.getProvincia().getNombre());
+        distritoDTO.setDepartamento(distritoEntity.getProvincia().getDepartamento().getNombre());
         return distritoDTO;
     }
 }

@@ -5,15 +5,17 @@ public class DistritoDTO {
     private Integer id;
     private String nombre;
     private String provincia;
+    private String departamento;
 
     public DistritoDTO(){
 
     }
 
-    public DistritoDTO(Integer id, String nombre, String provincia) {
+    public DistritoDTO(Integer id, String nombre, String provincia, String departamento) {
         this.id = id;
         this.nombre = nombre;
         this.provincia = provincia;
+        this.departamento = departamento;
     }
 
     public Integer getId() {
@@ -38,5 +40,13 @@ public class DistritoDTO {
 
     public void setProvincia(String provincia) {
         this.provincia = provincia;
+    }
+
+    public String getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(String departamento) {
+        this.departamento = departamento;
     }
 }
