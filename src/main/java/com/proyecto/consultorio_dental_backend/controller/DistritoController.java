@@ -5,11 +5,11 @@ import com.proyecto.consultorio_dental_backend.entity.DistritoEntity;
 import com.proyecto.consultorio_dental_backend.mapper.DistritoMapper;
 import com.proyecto.consultorio_dental_backend.service.DistritoService;
 import com.proyecto.consultorio_dental_backend.util.CommonUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +48,22 @@ public class DistritoController {
                 .orElseGet(() -> ResponseEntity.noContent().build());
     }
 
+    @GetMapping("/find-all-paginated")
+    public ResponseEntity<Page<DistritoDTO>> findAllPaginated(
+            @RequestParam(value ="page",defaultValue = "0")  Integer page,
+            @RequestParam(value ="size",defaultValue = "10") Integer size){
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<DistritoDTO> distritos = distritoService.findAllPageable(pageable);
+
+        if (distritos.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok().body(distritos);
+    }
+
     @GetMapping("/find-all-by-provincia-id/{provincia_id}")
     public ResponseEntity<List<DistritoDTO>> findAllByProvinciaId(@PathVariable Integer provincia_id){
 
@@ -71,6 +87,8 @@ public class DistritoController {
 
         return distritos.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok().body(distritos);
     }
+
+
 
 
 }
