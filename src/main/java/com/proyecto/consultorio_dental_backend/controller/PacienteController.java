@@ -19,28 +19,32 @@ public class PacienteController {
         this.pacienteService = pacienteService;
     }
 
-    @GetMapping("/find-all")
+    @GetMapping("/")
     public ResponseEntity<?> findAll(){
 
         List<PacienteEntity> pacientes = pacienteService.findAll();
 
-        return pacientes.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok().body(pacientes);
+        if (!pacientes.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(pacientes);
     }
 
-    @GetMapping("/find-by-id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Integer id){
 
         if (!CommonUtils.isValidId(id)) {
-            Map<String, String> errorMap = Map.of("Error", String.format("El id ingresado: %d no es válido", id));
-            return ResponseEntity.badRequest().body(errorMap);
+            return ResponseEntity.badRequest()
+                    .body(CommonUtils.errorMessageMap(String.format("El id %s no es válido", id)));
         }
 
         return pacienteService.findById(id)
-                .map(ResponseEntity::ok)
+                .map( () -> Re)
                 .orElseGet( () -> ResponseEntity.noContent().build());
     }
 
-    @GetMapping("/find-by-dni/{dni}")
+    @GetMapping("/dni/{dni}")
     public ResponseEntity<?> findByDni(@PathVariable String dni){
 
         if (!CommonUtils.isValidDni(dni)){
@@ -51,6 +55,14 @@ public class PacienteController {
         return pacienteService.findByDni(dni)
                 .map(ResponseEntity::ok)
                 .orElseGet( () -> ResponseEntity.noContent().build());
+    }
+
+    @GetMapping("/search-by-name")
+    public ResponseEntity<?> findByNombreCompletoLike
+            (@RequestParam(value = "nombreCompleto", defaultValue = "") String nombre){
+
+
+        return null;
     }
 
     @PostMapping

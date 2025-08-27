@@ -1,14 +1,11 @@
 package com.proyecto.consultorio_dental_backend.controller;
 
 import com.proyecto.consultorio_dental_backend.dto.DistritoDTO;
-import com.proyecto.consultorio_dental_backend.entity.DistritoEntity;
-import com.proyecto.consultorio_dental_backend.mapper.DistritoMapper;
 import com.proyecto.consultorio_dental_backend.service.DistritoService;
 import com.proyecto.consultorio_dental_backend.util.CommonUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

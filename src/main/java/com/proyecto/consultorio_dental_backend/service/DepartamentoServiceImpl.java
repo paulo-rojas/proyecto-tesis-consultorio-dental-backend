@@ -1,6 +1,7 @@
 package com.proyecto.consultorio_dental_backend.service;
 
 import com.proyecto.consultorio_dental_backend.entity.DepartamentoEntity;
+import com.proyecto.consultorio_dental_backend.exception.DepartamentoException;
 import com.proyecto.consultorio_dental_backend.repository.DepartamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

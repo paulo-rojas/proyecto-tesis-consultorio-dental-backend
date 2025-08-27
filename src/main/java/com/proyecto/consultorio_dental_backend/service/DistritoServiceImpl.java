@@ -56,7 +56,6 @@ public class DistritoServiceImpl implements DistritoService{
                 .map(DistritoMapper::toDTO);
     }
 
-
     @Override
     public Page<DistritoDTO> findAllByNombreLikePaged(Pageable pageable, String nombre) {
         return distritoRepository.findAllByNombreLikePaged("%" + nombre + "%",pageable)
