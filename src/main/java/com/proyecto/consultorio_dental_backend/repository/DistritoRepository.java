@@ -18,6 +18,9 @@ public interface DistritoRepository extends JpaRepository<DistritoEntity, Intege
     List<DistritoEntity> findAllByDepartamentoId(@Param("departamentoId") Integer departamentoId);
 
     @Query("SELECT d FROM DistritoEntity d")
-    Page<DistritoEntity> findAllCustomPaging(Pageable pageable);
+    Page<DistritoEntity> findAllPaged(Pageable pageable);
+
+    @Query("select d from DistritoEntity d where UPPER(d.nombre) like UPPER(:nombre)")
+    Page<DistritoEntity> findAllByNombreLikePaged(@Param("nombre") String nombre, Pageable pageable);
 
 }

@@ -17,5 +17,8 @@ public interface DistritoService {
 
     List<DistritoDTO> findAll();
 
-    Page<DistritoDTO> findAllPageable(Pageable pageable);
+    Page<DistritoDTO> findAllPaged(Pageable pageable);
+
+    Page<DistritoDTO> findAllByNombreLikePaged(Pageable pageable, String nombre);
+
 }

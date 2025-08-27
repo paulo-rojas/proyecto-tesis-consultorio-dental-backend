@@ -8,6 +8,7 @@ import com.proyecto.consultorio_dental_backend.util.CommonUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +25,18 @@ public class DistritoController {
         this.distritoService = distritoService;
     }
 
+    @GetMapping("/")
+    public ResponseEntity<List<DistritoDTO>> findAll(){
 
-    @GetMapping("/find-by-id/{id}")
+        List<DistritoDTO> distritos = distritoService.findAll();
+
+        return Optional.of(distritos)
+                .filter(list -> !list.isEmpty())
+                .map(dis -> ResponseEntity.ok().body(dis))
+                .orElseGet(() -> ResponseEntity.noContent().build());
+    }
+
+    @GetMapping("/{id}")
     public ResponseEntity<DistritoDTO> findById(@PathVariable Integer id) {
 
         if (CommonUtils.isValidId(id)) {
@@ -37,25 +48,14 @@ public class DistritoController {
                 .orElseGet(() -> ResponseEntity.noContent().build());
     }
 
-    @GetMapping("/find-all")
-    public ResponseEntity<List<DistritoDTO>> findAll(){
-
-        List<DistritoDTO> distritos = distritoService.findAll();
-
-        return Optional.of(distritos)
-                .filter(list -> !list.isEmpty())
-                .map(dis -> ResponseEntity.ok().body(dis))
-                .orElseGet(() -> ResponseEntity.noContent().build());
-    }
-
-    @GetMapping("/find-all-paginated")
-    public ResponseEntity<Page<DistritoDTO>> findAllPaginated(
+    @GetMapping("/page")
+    public ResponseEntity<Page<DistritoDTO>> findAllPaged(
             @RequestParam(value ="page",defaultValue = "0")  Integer page,
             @RequestParam(value ="size",defaultValue = "10") Integer size){
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<DistritoDTO> distritos = distritoService.findAllPageable(pageable);
+        Page<DistritoDTO> distritos = distritoService.findAllPaged(pageable);
 
         if (distritos.isEmpty()){
             return ResponseEntity.noContent().build();
@@ -64,11 +64,10 @@ public class DistritoController {
         return ResponseEntity.ok().body(distritos);
     }
 
-    @GetMapping("/find-all-by-provincia-id/{provincia_id}")
-    public ResponseEntity<List<DistritoDTO>> findAllByProvinciaId(@PathVariable Integer provincia_id){
+    @GetMapping("/provincia/{provinciaId}")
+    public ResponseEntity<List<DistritoDTO>> findAllByProvinciaId(@PathVariable Integer provinciaId){
 
-
-        List<DistritoDTO> distritos = distritoService.findAllByProvinciaId(provincia_id);
+        List<DistritoDTO> distritos = distritoService.findAllByProvinciaId(provinciaId);
 
         return Optional.of(distritos)
                 .filter(list -> !list.isEmpty())
@@ -76,19 +75,32 @@ public class DistritoController {
                 .orElseGet(() -> ResponseEntity.noContent().build());
     }
 
-    @GetMapping("/find-all-by-departamento-id/{departamento_id}")
-    public ResponseEntity<List<DistritoDTO>> findAllByDepartamentoId(@PathVariable Integer departamento_id){
+    @GetMapping("/departamento/{departamentoId}")
+    public ResponseEntity<List<DistritoDTO>> findAllByDepartamentoId(@PathVariable Integer departamentoId){
 
-        if (CommonUtils.isValidId(departamento_id)){
+        if (CommonUtils.isValidId(departamentoId)){
             return ResponseEntity.badRequest().build();
         }
 
-        List<DistritoDTO> distritos = distritoService.findAllByDepartamentoId(departamento_id);
+        List<DistritoDTO> distritos = distritoService.findAllByDepartamentoId(departamentoId);
 
         return distritos.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok().body(distritos);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Page<DistritoDTO>> findByNombreLikePaged(
+            @RequestParam(value = "nombre", defaultValue = "") String nombre,
+            @RequestParam(value ="page",defaultValue = "0")  Integer page,
+            @RequestParam(value ="size",defaultValue = "10") Integer size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<DistritoDTO> distritoDTOPage = distritoService.findAllByNombreLikePaged(pageable, nombre);
 
+        if (distritoDTOPage.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
 
+        return ResponseEntity.ok().body(distritoDTOPage);
 
+    }
 }

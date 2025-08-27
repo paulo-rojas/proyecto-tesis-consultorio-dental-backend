@@ -1,7 +1,6 @@
 package com.proyecto.consultorio_dental_backend.service;
 
 import com.proyecto.consultorio_dental_backend.dto.DistritoDTO;
-import com.proyecto.consultorio_dental_backend.entity.DistritoEntity;
 import com.proyecto.consultorio_dental_backend.mapper.DistritoMapper;
 import com.proyecto.consultorio_dental_backend.repository.DistritoRepository;
 import org.springframework.data.domain.Page;
@@ -52,8 +51,16 @@ public class DistritoServiceImpl implements DistritoService{
     }
 
     @Override
-    public Page<DistritoDTO> findAllPageable(Pageable pageable) {
-        return distritoRepository.findAllCustomPaging(pageable)
+    public Page<DistritoDTO> findAllPaged(Pageable pageable) {
+        return distritoRepository.findAllPaged(pageable)
                 .map(DistritoMapper::toDTO);
     }
+
+
+    @Override
+    public Page<DistritoDTO> findAllByNombreLikePaged(Pageable pageable, String nombre) {
+        return distritoRepository.findAllByNombreLikePaged("%" + nombre + "%",pageable)
+                .map(DistritoMapper::toDTO);
+    }
+
 }
