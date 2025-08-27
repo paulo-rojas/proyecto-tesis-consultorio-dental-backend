@@ -1,8 +1,9 @@
 package com.proyecto.consultorio_dental_backend.controller;
 
-import com.proyecto.consultorio_dental_backend.entity.Provincia;
+import com.proyecto.consultorio_dental_backend.dto.ProvinciaDTO;
+import com.proyecto.consultorio_dental_backend.entity.ProvinciaEntity;
 import com.proyecto.consultorio_dental_backend.service.ProvinciaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,20 +13,28 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/departamentos/{departamento_id}/provincias")
+@RequestMapping("/api/provincias")
 public class ProvinciaController {
 
-    @Autowired
-    private ProvinciaService provinciaService;
+    private final ProvinciaService provinciaService;
 
-    @GetMapping
-    public List<Provincia> findAllByDepartamentoId(@PathVariable Integer departamento_id){
-        return provinciaService.findAllByDepartamentoId(departamento_id);
+    public ProvinciaController(ProvinciaService provinciaService) {
+        this.provinciaService = provinciaService;
     }
 
-    @GetMapping("/{id}")
-    public Optional<Provincia> findById (@PathVariable Integer id){
-        return provinciaService.findById(id);
+    @GetMapping("/find-all-by-departamento-id/{departamento_id}")
+    public ResponseEntity<List<ProvinciaDTO>> findAllByDepartamentoId(@PathVariable Integer departamento_id){
+        return Optional.of(provinciaService.findAllByDepartamentoId(departamento_id))
+                .filter(list -> !list.isEmpty())
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.noContent().build());
+    }
+
+    @GetMapping("/find-by-id/{id}")
+    public ResponseEntity<ProvinciaDTO> findById (@PathVariable Integer id){
+        return provinciaService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.noContent().build());
     }
 
 }

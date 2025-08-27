@@ -1,6 +1,6 @@
 package com.proyecto.consultorio_dental_backend.service;
 
-import com.proyecto.consultorio_dental_backend.entity.Paciente;
+import com.proyecto.consultorio_dental_backend.entity.PacienteEntity;
 import com.proyecto.consultorio_dental_backend.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,22 +15,22 @@ public class PacienteServiceImpl implements PacienteService{
     PacienteRepository pacienteRepository;
 
     @Override
-    public Optional<Paciente> findByDni(String dni) {
+    public Optional<PacienteEntity> findByDni(String dni) {
         return pacienteRepository.findByDni(dni);
     }
 
     @Override
-    public Optional<Paciente> findById(Integer id) {
+    public Optional<PacienteEntity> findById(Integer id) {
         return pacienteRepository.findById(id);
     }
 
     @Override
-    public List<Paciente> findAll(){
+    public List<PacienteEntity> findAll(){
         return pacienteRepository.findAll();
     }
 
     @Override
-    public void save(Paciente paciente) {
+    public void save(PacienteEntity paciente) {
         pacienteRepository.save(paciente);
     }
 }

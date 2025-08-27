@@ -1,17 +1,17 @@
 package com.proyecto.consultorio_dental_backend.service;
 
-import com.proyecto.consultorio_dental_backend.entity.Paciente;
+import com.proyecto.consultorio_dental_backend.entity.PacienteEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PacienteService {
 
-    Optional<Paciente> findByDni(String dni);
+    Optional<PacienteEntity> findByDni(String dni);
 
-    Optional<Paciente> findById(Integer id);
+    Optional<PacienteEntity> findById(Integer id);
 
-    List<Paciente> findAll();
+    List<PacienteEntity> findAll();
 
-    void save(Paciente paciente);
+    void save(PacienteEntity paciente);
 }
