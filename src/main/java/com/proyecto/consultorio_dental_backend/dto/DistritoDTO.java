@@ -7,7 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DistritoDTO {
-
     private Integer id;
     private String nombre;
     private String provincia;

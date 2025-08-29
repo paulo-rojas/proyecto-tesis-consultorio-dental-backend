@@ -35,6 +35,6 @@ public class PacienteServiceImpl implements PacienteService{
 
     @Override
     public void save(PacienteDTO paciente) {
-        pacienteRepository.save(paciente);
+        pacienteRepository.save(PacienteMapper.toEntity(paciente));
     }
 }

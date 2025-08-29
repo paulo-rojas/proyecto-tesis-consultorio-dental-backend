@@ -23,4 +23,9 @@ public class PacienteMapper {
         pacienteDTO.setDireccion(DireccionMapper.toDTO(pacienteEntity.getDireccion()));
         return pacienteDTO;
     }
+
+    public static PacienteEntity toEntity(PacienteDTO paciente) {
+
+        return null;
+    }
 }

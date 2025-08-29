@@ -1,6 +1,6 @@
 package com.proyecto.consultorio_dental_backend.controller;
 
-import com.proyecto.consultorio_dental_backend.entity.PacienteEntity;
+import com.proyecto.consultorio_dental_backend.dto.PacienteDTO;
 import com.proyecto.consultorio_dental_backend.service.PacienteService;
 import com.proyecto.consultorio_dental_backend.util.CommonUtils;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class PacienteController {
     @GetMapping("/")
     public ResponseEntity<?> findAll(){
 
-        List<PacienteEntity> pacientes = pacienteService.findAll();
+        List<PacienteDTO> pacientes = pacienteService.findAll();
 
         if (!pacientes.isEmpty()){
             return ResponseEntity.noContent().build();
@@ -40,7 +40,7 @@ public class PacienteController {
         }
 
         return pacienteService.findById(id)
-                .map( () -> Re)
+                .map(ResponseEntity::ok)
                 .orElseGet( () -> ResponseEntity.noContent().build());
     }
 
@@ -66,7 +66,7 @@ public class PacienteController {
     }
 
     @PostMapping
-    public void save(@RequestBody PacienteEntity paciente){
+    public void save(@RequestBody PacienteDTO paciente){
         pacienteService.save(paciente);
     }
 }

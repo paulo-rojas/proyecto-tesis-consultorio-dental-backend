@@ -9,8 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DireccionDTO {
+public class DireccionResponseDTO {
 
+    private Integer id;
     private String detalle;
     private String distrito;
     private String provincia;

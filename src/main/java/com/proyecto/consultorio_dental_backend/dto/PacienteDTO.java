@@ -26,6 +26,6 @@ public class PacienteDTO {
     private Integer cantidadReferidos;
     private String ocupacion;
     private String estado;
-    private DireccionDTO direccion;
+    private DireccionResponseDTO direccion;
 
 }
