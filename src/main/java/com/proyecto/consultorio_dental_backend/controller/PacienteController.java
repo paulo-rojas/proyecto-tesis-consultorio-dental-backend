@@ -1,5 +1,6 @@
 package com.proyecto.consultorio_dental_backend.controller;
 
+import com.proyecto.consultorio_dental_backend.dto.DireccionRequestDTO;
 import com.proyecto.consultorio_dental_backend.dto.PacienteDTO;
 import com.proyecto.consultorio_dental_backend.service.PacienteService;
 import com.proyecto.consultorio_dental_backend.util.CommonUtils;
@@ -24,7 +25,7 @@ public class PacienteController {
 
         List<PacienteDTO> pacientes = pacienteService.findAll();
 
-        if (!pacientes.isEmpty()){
+        if (pacientes.isEmpty()){
             return ResponseEntity.noContent().build();
         }
 
@@ -63,6 +64,17 @@ public class PacienteController {
 
 
         return null;
+    }
+
+    @PostMapping("/{id}/direccion")
+    public ResponseEntity<?> saveDireccion(@PathVariable Integer id,
+                                           @RequestBody DireccionRequestDTO dto) {
+        try {
+            ResponseEntity<?> responseEntity  = pacienteService.saveDireccion(id, dto);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(CommonUtils.errorMessageMap(e.getMessage()));
+        }
     }
 
     @PostMapping

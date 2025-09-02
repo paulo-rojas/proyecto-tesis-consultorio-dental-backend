@@ -1,8 +1,11 @@
 package com.proyecto.consultorio_dental_backend.controller;
 
 import com.proyecto.consultorio_dental_backend.entity.DepartamentoEntity;
+import com.proyecto.consultorio_dental_backend.mapper.PacienteMapper;
 import com.proyecto.consultorio_dental_backend.service.DepartamentoService;
 import com.proyecto.consultorio_dental_backend.util.CommonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,7 @@ import java.util.Optional;
 @RequestMapping("/api/departamentos")
 public class DepartamentoController {
 
+    private static final Logger log = LoggerFactory.getLogger(DepartamentoController.class);
     private final DepartamentoService departamentoService;
 
     public DepartamentoController(DepartamentoService departamentoService) {
@@ -26,29 +30,17 @@ public class DepartamentoController {
 
     @GetMapping("/")
     public ResponseEntity<List<DepartamentoEntity>> findAll(){
+
         List<DepartamentoEntity> departamentos = departamentoService.findAll();
-
-        if (departamentos.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-
-        return ResponseEntity.ok().body(departamentos);
+        return departamentos.isEmpty()
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.ok(departamentos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Integer id){
+    public ResponseEntity<DepartamentoEntity> findById(@PathVariable Integer id){
 
-        if (!CommonUtils.isValidId(id)){
-            return ResponseEntity.badRequest()
-                    .body(CommonUtils.errorMessageMap(String.format("El id %s no es válido",id)));
-        }
-
-        Optional<DepartamentoEntity> departamento = departamentoService.findById(id);
-
-        if (departamento.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok().body(departamento.get());
+        DepartamentoEntity departamento = departamentoService.findById(id);
+        return ResponseEntity.ok(departamento);
     }
 }
