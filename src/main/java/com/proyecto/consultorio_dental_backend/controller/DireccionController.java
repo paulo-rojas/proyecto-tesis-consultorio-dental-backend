@@ -23,9 +23,10 @@ public class DireccionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Integer id){
-
-        DireccionResponseDTO direccion =  direccionService.findById(id);
-        return ResponseEntity.ok(direccion);
+        Optional<DireccionResponseDTO> direccion = direccionService.findById(id);
+        return direccion
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/")
