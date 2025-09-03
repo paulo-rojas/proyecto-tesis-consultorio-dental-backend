@@ -9,6 +9,7 @@ import com.proyecto.consultorio_dental_backend.util.CommonUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +71,7 @@ public class PacienteController {
         return null;
     }
 
+    /*
     @PostMapping("/{id}/direccion")
     public ResponseEntity<?> saveDireccion(@PathVariable Integer id,
                                            @RequestBody DireccionRequestDTO dto) {
@@ -81,6 +83,8 @@ public class PacienteController {
         }
     }
 
+
+     */
     @PostMapping
     public void save(@RequestBody PacienteDTO paciente){
         pacienteService.save(paciente);
@@ -88,9 +92,19 @@ public class PacienteController {
 
     // Direccion
 
-    @GetMapping("/{id}/direccion")
-    public ResponseEntity<DireccionResponseDTO> findDireccion(@PathVariable Integer id){
-        DireccionResponseDTO direccion = direccionService.findByPacienteId(id);
+    @GetMapping("/{pacienteId}/direccion")
+    public ResponseEntity<DireccionResponseDTO> findDireccion(@PathVariable Integer pacienteId){
+        DireccionResponseDTO direccion = direccionService.findByPacienteId(pacienteId);
         return ResponseEntity.ok(direccion);
     }
+
+    @PostMapping("/{pacienteId}/direccion")
+    public ResponseEntity<DireccionResponseDTO> addDireccion(@PathVariable Integer pacienteId, @RequestBody DireccionRequestDTO direccionRequestDTO){
+        DireccionResponseDTO direccionResponseDTO = direccionService.addDireccionToPaciente(pacienteId, direccionRequestDTO);
+        URI location = URI.create("/pacientes/" + pacienteId + "/direccion");
+        return ResponseEntity.created(location).body(direccionResponseDTO);
+    }
+
+
+
 }

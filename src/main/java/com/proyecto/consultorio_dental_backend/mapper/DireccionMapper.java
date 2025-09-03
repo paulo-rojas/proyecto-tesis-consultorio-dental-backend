@@ -19,11 +19,11 @@ public class DireccionMapper {
         return dto;
     }
 
-    public static DireccionEntity toEntity (DireccionRequestDTO dto, DistritoEntity distrito){
+    public static DireccionEntity toEntity(DireccionRequestDTO dto, DistritoEntity distrito) {
         DireccionEntity entity = new DireccionEntity();
-        entity.setId(dto.getId());
         entity.setDetalle(dto.getDetalle());
         entity.setDistrito(distrito);
         return entity;
     }
+
 }

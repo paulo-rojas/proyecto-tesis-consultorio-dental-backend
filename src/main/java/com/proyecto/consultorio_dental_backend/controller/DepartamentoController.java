@@ -21,7 +21,6 @@ import java.util.Optional;
 @RequestMapping("/api/departamentos")
 public class DepartamentoController {
 
-    private static final Logger log = LoggerFactory.getLogger(DepartamentoController.class);
     private final DepartamentoService departamentoService;
 
     public DepartamentoController(DepartamentoService departamentoService) {

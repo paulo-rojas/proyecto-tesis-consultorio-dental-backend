@@ -33,8 +33,10 @@ public class PacienteEntity {
     private String ocupacion;
     private String estado;
 
-    @OneToOne
-    @JoinColumn(name = "direccion_id" )
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "direccion_id")
     private DireccionEntity direccion;
 
 

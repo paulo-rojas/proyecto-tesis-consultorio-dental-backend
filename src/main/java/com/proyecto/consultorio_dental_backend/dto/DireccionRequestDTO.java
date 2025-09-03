@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class DireccionRequestDTO {
-    private Integer id;
     private String detalle;
     private Integer distritoId;
 }
