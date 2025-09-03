@@ -1,7 +1,9 @@
 package com.proyecto.consultorio_dental_backend.controller;
 
 import com.proyecto.consultorio_dental_backend.dto.DireccionRequestDTO;
+import com.proyecto.consultorio_dental_backend.dto.DireccionResponseDTO;
 import com.proyecto.consultorio_dental_backend.dto.PacienteDTO;
+import com.proyecto.consultorio_dental_backend.service.DireccionService;
 import com.proyecto.consultorio_dental_backend.service.PacienteService;
 import com.proyecto.consultorio_dental_backend.util.CommonUtils;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +17,11 @@ import java.util.Map;
 public class PacienteController {
 
     private final PacienteService pacienteService;
+    private final DireccionService direccionService;
 
-    public PacienteController(PacienteService pacienteService) {
+    public PacienteController(PacienteService pacienteService, DireccionService direccionService) {
         this.pacienteService = pacienteService;
+        this.direccionService = direccionService;
     }
 
     @GetMapping("/")
@@ -80,5 +84,13 @@ public class PacienteController {
     @PostMapping
     public void save(@RequestBody PacienteDTO paciente){
         pacienteService.save(paciente);
+    }
+
+    // Direccion
+
+    @GetMapping("/{id}/direccion")
+    public ResponseEntity<DireccionResponseDTO> findDireccion(@PathVariable Integer id){
+        DireccionResponseDTO direccion = direccionService.findByPacienteId(id);
+        return ResponseEntity.ok(direccion);
     }
 }
