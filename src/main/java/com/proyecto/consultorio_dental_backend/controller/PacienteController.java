@@ -80,7 +80,7 @@ public class PacienteController {
 
     @GetMapping("/{pacienteId}/direccion")
     public ResponseEntity<DireccionResponseDTO> findDireccion(@PathVariable Integer pacienteId){
-        DireccionResponseDTO direccion = direccionService.findByPacienteId(pacienteId);
+        DireccionResponseDTO direccion = direccionService.findDireccionByPacienteId(pacienteId);
         return ResponseEntity.ok(direccion);
     }
 
@@ -93,8 +93,14 @@ public class PacienteController {
 
     @PutMapping("/{pacienteId}/direccion")
     public ResponseEntity<DireccionResponseDTO> updateDireccion (@PathVariable Integer pacienteId, @RequestBody DireccionRequestDTO direccionRequestDTO){
-        DireccionResponseDTO direccion = direccionService.updateDireccion(pacienteId,direccionRequestDTO);
+        DireccionResponseDTO direccion = direccionService.updateDireccionToPaciente(pacienteId,direccionRequestDTO);
         return ResponseEntity.ok(direccion);
+    }
+
+    @DeleteMapping("/{pacienteId}/direccion")
+    public ResponseEntity<?> deleteDireccion (@PathVariable Integer pacienteId){
+        direccionService.deleteDireccionToPaciente(pacienteId);
+        return ResponseEntity.noContent().build();
     }
 
 

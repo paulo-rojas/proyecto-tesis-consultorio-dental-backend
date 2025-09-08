@@ -1,43 +1,24 @@
 package com.proyecto.consultorio_dental_backend.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
-
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "paciente")
-public class PacienteEntity {
+@Table(name = "pacientes")
+public class PacienteEntity extends PersonaEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    // Los campos id, dni, nombres, estado, direccion, etc., se heredan de PersonaEntity.
 
-    @Column(unique = true)
-    private String dni;
-    private String nombres;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
-    private LocalDate fechaNacimiento;
-    private String telefono1;
-    private String telefono2;
+    // Campos únicos para un Paciente
     private Integer cantidadReferidos;
     private String ocupacion;
-    private String estado;
-
-
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "direccion_id")
-    private DireccionEntity direccion;
-
 
 }

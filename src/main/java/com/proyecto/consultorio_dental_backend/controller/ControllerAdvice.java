@@ -51,8 +51,14 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler(PacienteYaCuentaConDireccionException.class)
-    public ResponseEntity<Map<String, Object>> handlePacienteNoEncontrado(PacienteYaCuentaConDireccionException ex) {
+    public ResponseEntity<Map<String, Object>> handlePacienteConDireccion(PacienteYaCuentaConDireccionException ex) {
         Map<String, Object> response = responseMap("Direccion ya registrada", ex.getMessage(), HttpStatus.CONFLICT.value());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    @ExceptionHandler(PacienteNoCuentaConDireccionException.class)
+    public ResponseEntity<Map<String, Object>> handlePacienteSinDireccion(PacienteNoCuentaConDireccionException ex) {
+        Map<String, Object> response = responseMap("Direccion sin registrar", ex.getMessage(), HttpStatus.CONFLICT.value());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 

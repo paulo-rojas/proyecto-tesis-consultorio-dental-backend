@@ -4,122 +4,89 @@ import com.proyecto.consultorio_dental_backend.dto.DireccionRequestDTO;
 import com.proyecto.consultorio_dental_backend.dto.DireccionResponseDTO;
 import com.proyecto.consultorio_dental_backend.entity.DireccionEntity;
 import com.proyecto.consultorio_dental_backend.entity.DistritoEntity;
-import com.proyecto.consultorio_dental_backend.entity.PacienteEntity;
+import com.proyecto.consultorio_dental_backend.entity.PersonaEntity;
 import com.proyecto.consultorio_dental_backend.exception.DireccionNoEncontradaException;
 import com.proyecto.consultorio_dental_backend.exception.DistritoNoEncontradoException;
-import com.proyecto.consultorio_dental_backend.exception.PacienteNoEncontradoException;
-import com.proyecto.consultorio_dental_backend.exception.PacienteYaCuentaConDireccionException;
+import com.proyecto.consultorio_dental_backend.exception.PersonaNotFoundException; // Asumiendo que esta excepción es creada
+import com.proyecto.consultorio_dental_backend.exception.PersonaYaCuentaConDireccionException; // Asumiendo que esta excepción es creada
 import com.proyecto.consultorio_dental_backend.mapper.DireccionMapper;
-import com.proyecto.consultorio_dental_backend.repository.DireccionRepository;
 import com.proyecto.consultorio_dental_backend.repository.DistritoRepository;
-import com.proyecto.consultorio_dental_backend.repository.PacienteRepository;
+import com.proyecto.consultorio_dental_backend.repository.PersonaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
-public class DireccionServiceImpl implements DireccionService{
+public class DireccionServiceImpl implements DireccionService {
 
-    private final DireccionRepository direccionRepository;
+    private final PersonaRepository personaRepository;
     private final DistritoRepository distritoRepository;
-    private final PacienteRepository pacienteRepository;
 
-    public DireccionServiceImpl(DireccionRepository direccionRepository, DistritoRepository distritoRepository, PacienteRepository pacienteRepository) {
-        this.direccionRepository = direccionRepository;
+    public DireccionServiceImpl(PersonaRepository personaRepository, DistritoRepository distritoRepository) {
+        this.personaRepository = personaRepository;
         this.distritoRepository = distritoRepository;
-        this.pacienteRepository = pacienteRepository;
     }
 
     @Override
-    public DireccionResponseDTO findById(Integer id) {
-        return direccionRepository.findById(id)
+    @Transactional(readOnly = true)
+    public DireccionResponseDTO findDireccionByPersonaId(Integer personaId) {
+        PersonaEntity persona = personaRepository.findById(personaId)
+                .orElseThrow(() -> new PersonaNotFoundException(personaId));
+
+        return Optional.ofNullable(persona.getDireccion())
                 .map(DireccionMapper::toDTO)
-                .orElseThrow( () -> new DireccionNoEncontradaException("Entidad", id));
+                .orElseThrow(() -> new DireccionNoEncontradaException("Persona", personaId));
     }
 
     @Override
-    public boolean update(DireccionRequestDTO dto) {
-        return false;
-    }
-
-    /* TO - FIX
-    @Override
-    public boolean update(DireccionRequestDTO dto) {
-
-        Optional<DireccionEntity> direccionExistente = direccionRepository.findById(dto.getId()); // No debería pedir la id del dto, sino el paciente o doctor
-        if (direccionExistente.isEmpty()) {
-            return false; // No existe la dirección a actualizar
-        }
-
-        Optional<DistritoEntity> distritoEntity = distritoRepository.findById(dto.getDistritoId());
-        if (distritoEntity.isEmpty()) {
-            return false; // No existe el distrito
-        }
-
-        DireccionEntity direccionEntity = DireccionMapper.toEntity(dto, distritoEntity.get());
-        DireccionEntity direccionGuardada = direccionRepository.save(direccionEntity);
-
-        return true;
-    }
-
-     */
-
-    @Override
-    public DireccionResponseDTO findByPacienteId(Integer pacienteId) {
-
-        PacienteEntity paciente = pacienteRepository.findById(pacienteId)
-                .orElseThrow( () -> new PacienteNoEncontradoException(pacienteId));
-
-        return Optional.ofNullable(paciente.getDireccion())
-                .map(DireccionMapper::toDTO)
-                .orElseThrow( () -> new DireccionNoEncontradaException("Paciente", pacienteId));
-    }
-
-    @Override
-    public DireccionResponseDTO findByMedicoId(Integer medicoId) {
-        // TO - DO
-        return null;
-    }
-
     @Transactional
-    @Override
-    public DireccionResponseDTO addDireccionToPaciente(Integer pacienteId, DireccionRequestDTO direccionRequestDTO) {
+    public DireccionResponseDTO addDireccionToPersona(Integer personaId, DireccionRequestDTO direccionRequestDTO) {
+        PersonaEntity persona = personaRepository.findById(personaId)
+                .orElseThrow(() -> new PersonaNotFoundException(personaId));
 
-        PacienteEntity paciente = pacienteRepository.findById(pacienteId)
-                .orElseThrow( () -> new PacienteNoEncontradoException(pacienteId));
-
-        if (Optional.ofNullable(paciente.getDireccion()).isPresent()){
-            throw new PacienteYaCuentaConDireccionException(pacienteId);
+        if (persona.getDireccion() != null) {
+            throw new PersonaYaCuentaConDireccionException(personaId);
         }
 
         DistritoEntity distrito = distritoRepository.findById(direccionRequestDTO.getDistritoId())
-                .orElseThrow( () -> new DistritoNoEncontradoException(direccionRequestDTO.getDistritoId()));
+                .orElseThrow(() -> new DistritoNoEncontradoException(direccionRequestDTO.getDistritoId()));
 
         DireccionEntity direccion = DireccionMapper.toEntity(direccionRequestDTO, distrito);
+        persona.setDireccion(direccion);
 
-        direccionRepository.save(direccion);
-        paciente.setDireccion(direccion);
-        pacienteRepository.save(paciente);
+        // Gracias a @Transactional y CascadeType.ALL, JPA guardará la dirección y actualizará la persona.
 
-        return DireccionMapper.toDTO(direccion);
-
+        return DireccionMapper.toDTO(persona.getDireccion());
     }
 
-    @Transactional
     @Override
-    public DireccionResponseDTO updateDireccion(Integer pacienteId, DireccionRequestDTO dto) {
-        
-        PacienteEntity paciente = pacienteRepository.findById(pacienteId)
-                .orElseThrow( () -> new PacienteNoEncontradoException(pacienteId));
-        
-        DistritoEntity distrito = distritoRepository.findById(dto.getDistritoId())
-                .orElseThrow( () -> new DistritoNoEncontradoException(dto.getDistritoId()));
+    @Transactional
+    public DireccionResponseDTO updateDireccion(Integer personaId, DireccionRequestDTO dto) {
+        PersonaEntity persona = personaRepository.findById(personaId)
+                .orElseThrow(() -> new PersonaNotFoundException(personaId));
 
-        DireccionEntity direccion = paciente.getDireccion();
+        DireccionEntity direccion = Optional.ofNullable(persona.getDireccion())
+                .orElseThrow(() -> new DireccionNoEncontradaException("Persona", personaId));
+
+        DistritoEntity distrito = distritoRepository.findById(dto.getDistritoId())
+                .orElseThrow(() -> new DistritoNoEncontradoException(dto.getDistritoId()));
+
         direccion.setDetalle(dto.getDetalle());
         direccion.setDistrito(distrito);
 
+        // Gracias a @Transactional, JPA detectará los cambios y hará el UPDATE.
+
         return DireccionMapper.toDTO(direccion);
+    }
+
+    @Override
+    @Transactional
+    public void deleteDireccion(Integer personaId) {
+        PersonaEntity persona = personaRepository.findById(personaId)
+                .orElseThrow(() -> new PersonaNotFoundException(personaId));
+
+        // Gracias a orphanRemoval=true, esto eliminará la DireccionEntity de la base de datos.
+        persona.setDireccion(null);
     }
 }

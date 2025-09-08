@@ -1,34 +1,21 @@
 package com.proyecto.consultorio_dental_backend.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "medico")
-public class MedicoEntity {
+@Table(name = "medicos")
+public class MedicoEntity extends PersonaEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String dni;
-    private String nombres;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
-    private LocalDate fechaNacimiento;
-    private String correo;
-    private String telefono;
+    private String especialidad;
     private String codigoColegiatura;
 
-    @OneToOne
-    @JoinColumn(name = "direccion_id" )
-    private DireccionEntity direccion;
 }

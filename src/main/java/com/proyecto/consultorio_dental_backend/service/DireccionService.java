@@ -5,15 +5,32 @@ import com.proyecto.consultorio_dental_backend.dto.DireccionResponseDTO;
 
 public interface DireccionService {
 
-    DireccionResponseDTO findById(Integer id);
+    /**
+     * Busca la dirección asociada a una persona (paciente o médico).
+     * @param personaId El ID de la persona.
+     * @return El DTO de la dirección.
+     */
+    DireccionResponseDTO findDireccionByPersonaId(Integer personaId);
 
-    boolean update(DireccionRequestDTO dto);
+    /**
+     * Añade una nueva dirección a una persona que no tiene una.
+     * @param personaId El ID de la persona.
+     * @param direccionRequestDTO Los datos de la nueva dirección.
+     * @return El DTO de la dirección creada.
+     */
+    DireccionResponseDTO addDireccionToPersona(Integer personaId, DireccionRequestDTO direccionRequestDTO);
 
-    DireccionResponseDTO findByPacienteId(Integer pacienteId);
+    /**
+     * Actualiza la dirección existente de una persona.
+     * @param personaId El ID de la persona.
+     * @param dto Los nuevos datos de la dirección.
+     * @return El DTO de la dirección actualizada.
+     */
+    DireccionResponseDTO updateDireccion(Integer personaId, DireccionRequestDTO dto);
 
-    DireccionResponseDTO findByMedicoId(Integer medicoId);
-
-    DireccionResponseDTO addDireccionToPaciente(Integer pacienteId, DireccionRequestDTO direccionRequestDTO);
-
-    DireccionResponseDTO updateDireccion(Integer pacienteId, DireccionRequestDTO direccionRequestDTO);
+    /**
+     * Elimina la dirección asociada a una persona.
+     * @param personaId El ID de la persona.
+     */
+    void deleteDireccion(Integer personaId);
 }
