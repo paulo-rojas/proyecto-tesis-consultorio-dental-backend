@@ -59,7 +59,6 @@ public class DistritoServiceImpl implements DistritoService{
                 .stream()
                 .map(DistritoMapper::toDTO)
                 .toList();
-
     }
 
     @Override

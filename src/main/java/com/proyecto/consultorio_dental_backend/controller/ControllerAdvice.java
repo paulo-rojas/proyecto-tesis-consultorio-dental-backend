@@ -26,6 +26,12 @@ public class ControllerAdvice {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
+    @ExceptionHandler(ProvinciaNoEncontradaException.class)
+    public ResponseEntity<Map<String, Object>> handleProvinciaNoEncontrada(ProvinciaNoEncontradaException ex) {
+        Map<String, Object> response = responseMap("Provincia no encontrada", ex.getMessage(), HttpStatus.NOT_FOUND.value());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
     @ExceptionHandler(DistritoNoEncontradoException.class)
     public ResponseEntity<Map<String, Object>>handleDistritoNoEncontrado(DistritoNoEncontradoException ex) {
         Map<String, Object> response = responseMap("Distrito no encontrada", ex.getMessage(), HttpStatus.NOT_FOUND.value());
