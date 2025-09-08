@@ -71,20 +71,6 @@ public class PacienteController {
         return null;
     }
 
-    /*
-    @PostMapping("/{id}/direccion")
-    public ResponseEntity<?> saveDireccion(@PathVariable Integer id,
-                                           @RequestBody DireccionRequestDTO dto) {
-        try {
-            ResponseEntity<?> responseEntity  = pacienteService.saveDireccion(id, dto);
-            return ResponseEntity.ok().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(CommonUtils.errorMessageMap(e.getMessage()));
-        }
-    }
-
-
-     */
     @PostMapping
     public void save(@RequestBody PacienteDTO paciente){
         pacienteService.save(paciente);
@@ -105,6 +91,11 @@ public class PacienteController {
         return ResponseEntity.created(location).body(direccionResponseDTO);
     }
 
+    @PutMapping("/{pacienteId}/direccion")
+    public ResponseEntity<DireccionResponseDTO> updateDireccion (@PathVariable Integer pacienteId, @RequestBody DireccionRequestDTO direccionRequestDTO){
+        DireccionResponseDTO direccion = direccionService.updateDireccion(pacienteId,direccionRequestDTO);
+        return ResponseEntity.ok(direccion);
+    }
 
 
 }

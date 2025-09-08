@@ -14,4 +14,6 @@ public interface DireccionService {
     DireccionResponseDTO findByMedicoId(Integer medicoId);
 
     DireccionResponseDTO addDireccionToPaciente(Integer pacienteId, DireccionRequestDTO direccionRequestDTO);
+
+    DireccionResponseDTO updateDireccion(Integer pacienteId, DireccionRequestDTO direccionRequestDTO);
 }

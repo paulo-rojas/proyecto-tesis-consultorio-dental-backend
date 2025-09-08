@@ -106,4 +106,20 @@ public class DireccionServiceImpl implements DireccionService{
 
     }
 
+    @Transactional
+    @Override
+    public DireccionResponseDTO updateDireccion(Integer pacienteId, DireccionRequestDTO dto) {
+        
+        PacienteEntity paciente = pacienteRepository.findById(pacienteId)
+                .orElseThrow( () -> new PacienteNoEncontradoException(pacienteId));
+        
+        DistritoEntity distrito = distritoRepository.findById(dto.getDistritoId())
+                .orElseThrow( () -> new DistritoNoEncontradoException(dto.getDistritoId()));
+
+        DireccionEntity direccion = paciente.getDireccion();
+        direccion.setDetalle(dto.getDetalle());
+        direccion.setDistrito(distrito);
+
+        return DireccionMapper.toDTO(direccion);
+    }
 }
