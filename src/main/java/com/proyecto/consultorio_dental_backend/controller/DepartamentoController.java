@@ -1,8 +1,12 @@
 package com.proyecto.consultorio_dental_backend.controller;
 
 import com.proyecto.consultorio_dental_backend.entity.DepartamentoEntity;
+import com.proyecto.consultorio_dental_backend.mapper.PacienteMapper;
 import com.proyecto.consultorio_dental_backend.service.DepartamentoService;
 import com.proyecto.consultorio_dental_backend.util.CommonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/departamentos")
@@ -21,27 +27,19 @@ public class DepartamentoController {
         this.departamentoService = departamentoService;
     }
 
-    @GetMapping("/find-all")
+    @GetMapping("/")
     public ResponseEntity<List<DepartamentoEntity>> findAll(){
+
         List<DepartamentoEntity> departamentos = departamentoService.findAll();
-
-        if (departamentos.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-
-        return ResponseEntity.ok().body(departamentos);
+        return departamentos.isEmpty()
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.ok(departamentos);
     }
 
-    @GetMapping("/find-by-id/{id}")
-    public ResponseEntity<?> findById(@PathVariable Integer id){
+    @GetMapping("/{id}")
+    public ResponseEntity<DepartamentoEntity> findById(@PathVariable Integer id){
 
-        if (CommonUtils.isValidId(id)){
-            return ResponseEntity.badRequest().build();
-        }
-
-        return departamentoService.findById(id)
-                //.map(dep -> ResponseEntity.ok().body(dep))
-                .map(ResponseEntity::ok)
-                .orElseGet(()->ResponseEntity.noContent().build());
+        DepartamentoEntity departamento = departamentoService.findById(id);
+        return ResponseEntity.ok(departamento);
     }
 }

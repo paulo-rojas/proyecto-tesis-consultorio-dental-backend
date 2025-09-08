@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface DistritoService {
 
-    Optional<DistritoDTO> findById(Integer id);
+    DistritoDTO findById(Integer id);
 
     List<DistritoDTO> findAllByProvinciaId (Integer provincia_id);
 

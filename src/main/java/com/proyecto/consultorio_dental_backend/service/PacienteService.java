@@ -1,17 +1,23 @@
 package com.proyecto.consultorio_dental_backend.service;
 
-import com.proyecto.consultorio_dental_backend.entity.PacienteEntity;
+import com.proyecto.consultorio_dental_backend.dto.DireccionRequestDTO;
+import com.proyecto.consultorio_dental_backend.dto.PacienteDTO;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PacienteService {
 
-    Optional<PacienteEntity> findByDni(String dni);
+    Optional<PacienteDTO> findByDni(String dni);
 
-    Optional<PacienteEntity> findById(Integer id);
+    Optional<PacienteDTO> findById(Integer id);
 
-    List<PacienteEntity> findAll();
+    List<PacienteDTO> findAll();
 
-    void save(PacienteEntity paciente);
+    void save(PacienteDTO paciente);
+
+    boolean existsById(Integer id);
+
+    ResponseEntity<?> saveDireccion(Integer id, DireccionRequestDTO direccionRequestDTO);
 }

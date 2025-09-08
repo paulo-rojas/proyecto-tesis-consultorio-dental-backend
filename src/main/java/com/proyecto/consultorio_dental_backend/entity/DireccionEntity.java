@@ -18,7 +18,7 @@ public class DireccionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String descripcion;
+    private String detalle;
 
     @ManyToOne
     @JoinColumn(name = "distrito_id" )
