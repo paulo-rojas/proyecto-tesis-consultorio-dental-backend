@@ -29,9 +29,7 @@ public class PacienteMapper {
         dto.setCorreo(entity.getCorreo());
         dto.setTelefono1(entity.getTelefono1());
         dto.setTelefono2(entity.getTelefono2());
-        dto.setEstado(entity.getEstado());
 
-        // Campos propios de PacienteEntity
         dto.setCantidadReferidos(entity.getCantidadReferidos());
         dto.setOcupacion(entity.getOcupacion());
 
@@ -52,8 +50,6 @@ public class PacienteMapper {
 
         PacienteEntity entity = new PacienteEntity();
 
-        // Campos heredados de PersonaEntity
-        // El ID no se setea desde el DTO, ya que es autogenerado o se maneja en el servicio para actualizaciones.
         entity.setDni(dto.getDni());
         entity.setNombres(dto.getNombres());
         entity.setApellidoPaterno(dto.getApellidoPaterno());
@@ -62,14 +58,10 @@ public class PacienteMapper {
         entity.setCorreo(dto.getCorreo());
         entity.setTelefono1(dto.getTelefono1());
         entity.setTelefono2(dto.getTelefono2());
-        entity.setEstado(dto.getEstado());
+        entity.setEstado(true);
 
-        // Campos propios de PacienteEntity
         entity.setCantidadReferidos(dto.getCantidadReferidos());
         entity.setOcupacion(dto.getOcupacion());
-
-        // La entidad Direccion no se mapea aquí. La lógica de asociación
-        // (crear/asignar una DireccionEntity) debe manejarse en la capa de servicio.
 
         return entity;
     }

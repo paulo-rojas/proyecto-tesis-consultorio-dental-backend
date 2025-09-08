@@ -7,13 +7,11 @@ import java.util.Optional;
 
 public interface PacienteService {
 
-    Optional<PacienteDTO> findByDni(String dni);
+    PacienteDTO findByDni(String dni);
 
-    Optional<PacienteDTO> findById(Integer id);
+    PacienteDTO findById(Integer id);
 
     List<PacienteDTO> findAll();
 
-    void save(PacienteDTO paciente);
-
-    boolean existsById(Integer id);
+    PacienteDTO save(PacienteDTO paciente);
 }

@@ -5,9 +5,9 @@ import com.proyecto.consultorio_dental_backend.dto.DireccionResponseDTO;
 import com.proyecto.consultorio_dental_backend.entity.DireccionEntity;
 import com.proyecto.consultorio_dental_backend.entity.DistritoEntity;
 import com.proyecto.consultorio_dental_backend.entity.PersonaEntity;
-import com.proyecto.consultorio_dental_backend.exception.DireccionNoEncontradaException;
 import com.proyecto.consultorio_dental_backend.exception.DistritoNoEncontradoException;
-import com.proyecto.consultorio_dental_backend.exception.PersonaNotFoundException; // Asumiendo que esta excepción es creada
+import com.proyecto.consultorio_dental_backend.exception.PersonaNoCuentaConDireccionException;
+import com.proyecto.consultorio_dental_backend.exception.PersonaNoEncontradaException; // Asumiendo que esta excepción es creada
 import com.proyecto.consultorio_dental_backend.exception.PersonaYaCuentaConDireccionException; // Asumiendo que esta excepción es creada
 import com.proyecto.consultorio_dental_backend.mapper.DireccionMapper;
 import com.proyecto.consultorio_dental_backend.repository.DistritoRepository;
@@ -32,18 +32,18 @@ public class DireccionServiceImpl implements DireccionService {
     @Transactional(readOnly = true)
     public DireccionResponseDTO findDireccionByPersonaId(Integer personaId) {
         PersonaEntity persona = personaRepository.findById(personaId)
-                .orElseThrow(() -> new PersonaNotFoundException(personaId));
+                .orElseThrow(() -> new PersonaNoEncontradaException(personaId));
 
         return Optional.ofNullable(persona.getDireccion())
                 .map(DireccionMapper::toDTO)
-                .orElseThrow(() -> new DireccionNoEncontradaException("Persona", personaId));
+                .orElseThrow(() -> new PersonaNoCuentaConDireccionException(personaId));
     }
 
     @Override
     @Transactional
     public DireccionResponseDTO addDireccionToPersona(Integer personaId, DireccionRequestDTO direccionRequestDTO) {
         PersonaEntity persona = personaRepository.findById(personaId)
-                .orElseThrow(() -> new PersonaNotFoundException(personaId));
+                .orElseThrow(() -> new PersonaNoEncontradaException(personaId));
 
         if (persona.getDireccion() != null) {
             throw new PersonaYaCuentaConDireccionException(personaId);
@@ -55,8 +55,6 @@ public class DireccionServiceImpl implements DireccionService {
         DireccionEntity direccion = DireccionMapper.toEntity(direccionRequestDTO, distrito);
         persona.setDireccion(direccion);
 
-        // Gracias a @Transactional y CascadeType.ALL, JPA guardará la dirección y actualizará la persona.
-
         return DireccionMapper.toDTO(persona.getDireccion());
     }
 
@@ -64,18 +62,16 @@ public class DireccionServiceImpl implements DireccionService {
     @Transactional
     public DireccionResponseDTO updateDireccion(Integer personaId, DireccionRequestDTO dto) {
         PersonaEntity persona = personaRepository.findById(personaId)
-                .orElseThrow(() -> new PersonaNotFoundException(personaId));
+                .orElseThrow(() -> new PersonaNoEncontradaException(personaId));
 
         DireccionEntity direccion = Optional.ofNullable(persona.getDireccion())
-                .orElseThrow(() -> new DireccionNoEncontradaException("Persona", personaId));
+                .orElseThrow(() -> new PersonaNoCuentaConDireccionException(personaId));
 
         DistritoEntity distrito = distritoRepository.findById(dto.getDistritoId())
                 .orElseThrow(() -> new DistritoNoEncontradoException(dto.getDistritoId()));
 
         direccion.setDetalle(dto.getDetalle());
         direccion.setDistrito(distrito);
-
-        // Gracias a @Transactional, JPA detectará los cambios y hará el UPDATE.
 
         return DireccionMapper.toDTO(direccion);
     }
@@ -84,9 +80,8 @@ public class DireccionServiceImpl implements DireccionService {
     @Transactional
     public void deleteDireccion(Integer personaId) {
         PersonaEntity persona = personaRepository.findById(personaId)
-                .orElseThrow(() -> new PersonaNotFoundException(personaId));
+                .orElseThrow(() -> new PersonaNoEncontradaException(personaId));
 
-        // Gracias a orphanRemoval=true, esto eliminará la DireccionEntity de la base de datos.
         persona.setDireccion(null);
     }
 }

@@ -1,6 +1,9 @@
 package com.proyecto.consultorio_dental_backend.service;
 
 import com.proyecto.consultorio_dental_backend.dto.PacienteDTO;
+import com.proyecto.consultorio_dental_backend.entity.PacienteEntity;
+import com.proyecto.consultorio_dental_backend.exception.PersonaNoCuentaConDireccionException;
+import com.proyecto.consultorio_dental_backend.exception.PersonaNoEncontradaException;
 import com.proyecto.consultorio_dental_backend.mapper.PacienteMapper;
 import com.proyecto.consultorio_dental_backend.repository.PacienteRepository;
 import org.springframework.stereotype.Service;
@@ -18,13 +21,15 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
-    public Optional<PacienteDTO> findByDni(String dni) {
-        return pacienteRepository.findByDni(dni).map(PacienteMapper::toDTO);
+    public PacienteDTO findByDni(String dni) {
+        return pacienteRepository.findByDni(dni).map(PacienteMapper::toDTO)
+                .orElseThrow( () -> new PersonaNoEncontradaException(null));
     }
 
     @Override
-    public Optional<PacienteDTO> findById(Integer id) {
-        return pacienteRepository.findById(id).map(PacienteMapper::toDTO);
+    public PacienteDTO findById(Integer id) {
+        return pacienteRepository.findById(id).map(PacienteMapper::toDTO)
+                .orElseThrow( () -> new PersonaNoEncontradaException(id));
     }
 
     @Override
@@ -36,12 +41,9 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
-    public void save(PacienteDTO paciente) {
-        pacienteRepository.save(PacienteMapper.toEntity(paciente));
+    public PacienteDTO save(PacienteDTO paciente) {
+        PacienteEntity entity = pacienteRepository.save(PacienteMapper.toEntity(paciente));
+        return PacienteMapper.toDTO(entity);
     }
 
-    @Override
-    public boolean existsById(Integer id) {
-        return pacienteRepository.existsById(id);
-    }
 }

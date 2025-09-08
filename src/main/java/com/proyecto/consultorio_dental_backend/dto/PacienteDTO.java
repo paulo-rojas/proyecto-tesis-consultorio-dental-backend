@@ -23,9 +23,11 @@ public class PacienteDTO {
     private Integer edad;
     private String telefono1;
     private String telefono2;
+    private String correo;
     private Integer cantidadReferidos;
     private String ocupacion;
     private String estado;
+
     private DireccionResponseDTO direccion;
 
 }

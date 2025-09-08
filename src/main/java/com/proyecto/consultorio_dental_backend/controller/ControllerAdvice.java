@@ -38,27 +38,21 @@ public class ControllerAdvice {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
-    @ExceptionHandler(DireccionNoEncontradaException.class)
-    public ResponseEntity<Map<String, Object>> handleDireccionNoEncontrada(DireccionNoEncontradaException ex) {
-        Map<String, Object> response = responseMap("Direccion no encontrada", ex.getMessage(), HttpStatus.NOT_FOUND.value());
+    @ExceptionHandler(PersonaNoEncontradaException.class)
+    public ResponseEntity<Map<String, Object>> handlePersonaNoEncontrado(PersonaNoEncontradaException ex) {
+        Map<String, Object> response = responseMap("Usuario no encontrado", ex.getMessage(), HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
-    @ExceptionHandler(PacienteNoEncontradoException.class)
-    public ResponseEntity<Map<String, Object>> handlePacienteNoEncontrado(PacienteNoEncontradoException ex) {
-        Map<String, Object> response = responseMap("Paciente no encontrado", ex.getMessage(), HttpStatus.NOT_FOUND.value());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    }
-
-    @ExceptionHandler(PacienteYaCuentaConDireccionException.class)
-    public ResponseEntity<Map<String, Object>> handlePacienteConDireccion(PacienteYaCuentaConDireccionException ex) {
+    @ExceptionHandler(PersonaYaCuentaConDireccionException.class)
+    public ResponseEntity<Map<String, Object>> handlePersonaConDireccion(PersonaYaCuentaConDireccionException ex) {
         Map<String, Object> response = responseMap("Direccion ya registrada", ex.getMessage(), HttpStatus.CONFLICT.value());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
-    @ExceptionHandler(PacienteNoCuentaConDireccionException.class)
-    public ResponseEntity<Map<String, Object>> handlePacienteSinDireccion(PacienteNoCuentaConDireccionException ex) {
-        Map<String, Object> response = responseMap("Direccion sin registrar", ex.getMessage(), HttpStatus.CONFLICT.value());
+    @ExceptionHandler(PersonaNoCuentaConDireccionException.class)
+    public ResponseEntity<Map<String, Object>> handlePersonaSinDireccion(PersonaNoCuentaConDireccionException ex) {
+        Map<String, Object> response = responseMap("Sin dirección registrada", ex.getMessage(), HttpStatus.CONFLICT.value());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
