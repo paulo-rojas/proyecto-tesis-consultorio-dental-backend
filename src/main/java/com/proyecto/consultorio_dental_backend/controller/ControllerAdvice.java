@@ -32,7 +32,6 @@ public class ControllerAdvice {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
-
     @ExceptionHandler(DireccionNoEncontradaException.class)
     public ResponseEntity<Map<String, Object>> handleDireccionNoEncontrada(DireccionNoEncontradaException ex) {
         Map<String, Object> response = responseMap("Direccion no encontrada", ex.getMessage(), HttpStatus.NOT_FOUND.value());
