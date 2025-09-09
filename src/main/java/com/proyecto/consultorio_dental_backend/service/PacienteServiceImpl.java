@@ -57,4 +57,14 @@ public class PacienteServiceImpl implements PacienteService {
         pacienteRepository.save(entity);
     }
 
+    @Override
+    @Transactional
+    public void updateOcupacion(Integer pacienteId, String ocupacion) {
+        PacienteEntity entity = pacienteRepository.findById(pacienteId)
+                .orElseThrow( () -> new PersonaNoEncontradaException(pacienteId));
+
+        entity.setOcupacion(ocupacion);
+        pacienteRepository.save(entity);
+    }
+
 }

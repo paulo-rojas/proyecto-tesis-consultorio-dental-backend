@@ -16,4 +16,6 @@ public interface PacienteService {
     PacienteResponseDTO save(PacienteRequestDTO paciente);
 
     void delete(Integer id);
+
+    void updateOcupacion(Integer pacienteId, String ocupacion);
 }

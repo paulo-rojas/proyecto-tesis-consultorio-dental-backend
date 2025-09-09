@@ -18,4 +18,7 @@ public class PacienteEntity extends PersonaEntity {
     private Integer cantidadReferidos;
     private String ocupacion;
 
+    public void setOcupacion(String ocupacion) {
+        this.ocupacion = (ocupacion != null) ? ocupacion.toUpperCase() : null;
+    }
 }

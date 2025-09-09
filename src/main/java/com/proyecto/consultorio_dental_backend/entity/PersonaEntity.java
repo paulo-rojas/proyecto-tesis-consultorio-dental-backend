@@ -22,9 +22,6 @@ public abstract class PersonaEntity {
     private String apellidoPaterno;
     private String apellidoMaterno;
     private LocalDate fechaNacimiento;
-    private String correo;
-    private String telefono1;
-    private String telefono2;
     private Boolean estado;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -34,4 +31,17 @@ public abstract class PersonaEntity {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "direccion_id", referencedColumnName = "id")
     private DireccionEntity direccion;
+
+    // MANTENER LOS DATOS QUE INGRESEN EN MAYÚSCULAS
+    public void setNombres(String nombres) {
+        this.nombres = (nombres != null) ? nombres.toUpperCase() : null;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = (apellidoPaterno != null) ? apellidoPaterno.toUpperCase() : null;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = (apellidoMaterno != null) ? apellidoMaterno.toUpperCase() : null;
+    }
 }

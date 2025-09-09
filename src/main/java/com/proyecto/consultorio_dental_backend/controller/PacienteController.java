@@ -81,6 +81,16 @@ public class PacienteController {
         return ResponseEntity.created(location).body(pacienteGuardado);
     }
 
+    // OCUPACIÓN
+
+    @PutMapping("{pacienteId}/ocupacion")
+    public ResponseEntity<?> updateOcupacion(
+            @PathVariable Integer pacienteId,
+            @RequestParam(value = "ocupacion", defaultValue = "") String Ocupacion){
+        pacienteService.updateOcupacion(pacienteId, Ocupacion);
+        return ResponseEntity.noContent().build();
+    }
+
     // Direccion
 
     @GetMapping("/{pacienteId}/direccion")
@@ -110,7 +120,6 @@ public class PacienteController {
 
     // CONTACTO
 
-
     @GetMapping("/{pacienteId}/contacto")
     public ResponseEntity<ContactoDTO> findContacto(@PathVariable Integer pacienteId){
         ContactoDTO contacto = contactoService.findContactoByPersonaId(pacienteId);
@@ -135,5 +144,6 @@ public class PacienteController {
         contactoService.deleteContacto(pacienteId);
         return ResponseEntity.noContent().build();
     }
+
 
 }

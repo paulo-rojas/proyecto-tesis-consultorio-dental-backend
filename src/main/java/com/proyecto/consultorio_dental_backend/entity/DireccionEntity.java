@@ -24,4 +24,7 @@ public class DireccionEntity {
     @JoinColumn(name = "distrito_id" )
     private DistritoEntity distrito;
 
+    public void setDetalle(String detalle) {
+        this.detalle = (detalle != null) ? detalle.toUpperCase() : null;
+    }
 }
