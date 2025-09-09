@@ -1,15 +1,15 @@
 package com.proyecto.consultorio_dental_backend.service;
 
-import com.proyecto.consultorio_dental_backend.dto.PacienteDTO;
+import com.proyecto.consultorio_dental_backend.dto.PacienteRequestDTO;
+import com.proyecto.consultorio_dental_backend.dto.PacienteResponseDTO;
 import com.proyecto.consultorio_dental_backend.entity.PacienteEntity;
-import com.proyecto.consultorio_dental_backend.exception.PersonaNoCuentaConDireccionException;
 import com.proyecto.consultorio_dental_backend.exception.PersonaNoEncontradaException;
 import com.proyecto.consultorio_dental_backend.mapper.PacienteMapper;
 import com.proyecto.consultorio_dental_backend.repository.PacienteRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PacienteServiceImpl implements PacienteService {
@@ -21,19 +21,19 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
-    public PacienteDTO findByDni(String dni) {
+    public PacienteResponseDTO findByDni(String dni) {
         return pacienteRepository.findByDni(dni).map(PacienteMapper::toDTO)
                 .orElseThrow( () -> new PersonaNoEncontradaException(null));
     }
 
     @Override
-    public PacienteDTO findById(Integer id) {
+    public PacienteResponseDTO findById(Integer id) {
         return pacienteRepository.findById(id).map(PacienteMapper::toDTO)
                 .orElseThrow( () -> new PersonaNoEncontradaException(id));
     }
 
     @Override
-    public List<PacienteDTO> findAll() {
+    public List<PacienteResponseDTO> findAll() {
         return pacienteRepository.findAll()
                 .stream()
                 .map(PacienteMapper::toDTO)
@@ -41,9 +41,20 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
-    public PacienteDTO save(PacienteDTO paciente) {
-        PacienteEntity entity = pacienteRepository.save(PacienteMapper.toEntity(paciente));
-        return PacienteMapper.toDTO(entity);
+    @Transactional
+    public PacienteResponseDTO save(PacienteRequestDTO paciente) {
+        PacienteEntity pacienteEntity = PacienteMapper.toEntity(paciente);
+        pacienteRepository.save(pacienteEntity);
+        return PacienteMapper.toDTO(pacienteEntity);
+    }
+
+
+    @Override
+    @Transactional
+    public void delete(Integer id) {
+        PacienteEntity entity = pacienteRepository.findById(id).orElseThrow(() -> new PersonaNoEncontradaException(id));
+        entity.setEstado(false);
+        pacienteRepository.save(entity);
     }
 
 }

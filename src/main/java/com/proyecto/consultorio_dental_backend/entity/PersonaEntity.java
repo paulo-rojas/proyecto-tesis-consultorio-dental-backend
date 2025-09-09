@@ -28,6 +28,10 @@ public abstract class PersonaEntity {
     private Boolean estado;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "contacto_id", referencedColumnName = "id")
+    private ContactoEntity contacto;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "direccion_id", referencedColumnName = "id")
     private DireccionEntity direccion;
 }

@@ -12,22 +12,16 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PacienteDTO {
+public class PacienteRequestDTO {
 
-    private Integer id;
     private String dni;
     private String nombres;
     private String apellidoPaterno;
     private String apellidoMaterno;
     private LocalDate fechaNacimiento;
-    private Integer edad;
-    private String telefono1;
-    private String telefono2;
-    private String correo;
-    private Integer cantidadReferidos;
-    private String ocupacion;
-    private String estado;
 
-    private DireccionResponseDTO direccion;
+    private ContactoDTO contacto;
+
+    private String ocupacion;
 
 }

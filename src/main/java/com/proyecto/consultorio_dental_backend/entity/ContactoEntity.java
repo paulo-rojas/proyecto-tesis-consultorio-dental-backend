@@ -11,17 +11,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "direcciones")
-public class DireccionEntity {
-
+@Table(name = "contacto")
+public class ContactoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    private String detalle;
-
-    @ManyToOne
-    @JoinColumn(name = "distrito_id" )
-    private DistritoEntity distrito;
+    private String telefono1;
+    private String telefono2;
+    private String correo;
 
 }

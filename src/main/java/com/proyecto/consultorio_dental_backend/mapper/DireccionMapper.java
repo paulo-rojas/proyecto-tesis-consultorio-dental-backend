@@ -11,7 +11,6 @@ public class DireccionMapper {
 
     public static DireccionResponseDTO toDTO(DireccionEntity entity){
         DireccionResponseDTO dto = new DireccionResponseDTO();
-        dto.setId(entity.getId());
         dto.setDetalle(entity.getDetalle());
         dto.setDistrito(entity.getDistrito().getNombre());
         dto.setProvincia(entity.getDistrito().getProvincia().getNombre());

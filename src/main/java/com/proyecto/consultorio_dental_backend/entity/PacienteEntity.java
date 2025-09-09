@@ -15,9 +15,6 @@ import lombok.Setter;
 @Table(name = "pacientes")
 public class PacienteEntity extends PersonaEntity {
 
-    // Los campos id, dni, nombres, estado, direccion, etc., se heredan de PersonaEntity.
-
-    // Campos únicos para un Paciente
     private Integer cantidadReferidos;
     private String ocupacion;
 

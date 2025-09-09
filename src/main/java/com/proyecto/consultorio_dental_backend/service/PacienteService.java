@@ -1,17 +1,19 @@
 package com.proyecto.consultorio_dental_backend.service;
 
-import com.proyecto.consultorio_dental_backend.dto.PacienteDTO;
+import com.proyecto.consultorio_dental_backend.dto.PacienteRequestDTO;
+import com.proyecto.consultorio_dental_backend.dto.PacienteResponseDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PacienteService {
 
-    PacienteDTO findByDni(String dni);
+    PacienteResponseDTO findByDni(String dni);
 
-    PacienteDTO findById(Integer id);
+    PacienteResponseDTO findById(Integer id);
 
-    List<PacienteDTO> findAll();
+    List<PacienteResponseDTO> findAll();
 
-    PacienteDTO save(PacienteDTO paciente);
+    PacienteResponseDTO save(PacienteRequestDTO paciente);
+
+    void delete(Integer id);
 }

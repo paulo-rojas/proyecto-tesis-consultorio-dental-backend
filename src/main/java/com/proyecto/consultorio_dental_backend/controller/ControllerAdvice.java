@@ -1,59 +1,54 @@
 package com.proyecto.consultorio_dental_backend.controller;
 
+import com.proyecto.consultorio_dental_backend.dto.ErrorResponseDTO;
 import com.proyecto.consultorio_dental_backend.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.context.request.WebRequest;
 
 @RestControllerAdvice
 public class ControllerAdvice {
 
-    Map<String, Object> responseMap (String error, String detalle, Integer status){
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", status);
-        response.put("error", error);
-        response.put("detalle", detalle);
-        return response;
+    @ExceptionHandler({
+            DepartamentoNoEncontradoException.class,
+            ProvinciaNoEncontradaException.class,
+            DistritoNoEncontradoException.class,
+            PersonaNoEncontradaException.class,
+            PersonaNoCuentaConDireccionException.class,
+            PersonaNoCuentaConContactoException.class
+    })
+    public ResponseEntity<ErrorResponseDTO> handleResourceNotFoundException(RuntimeException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                status.value(),
+                "Recurso no encontrado",
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, status);
     }
 
-    @ExceptionHandler(DepartamentoNoEncontradoException.class)
-    public ResponseEntity<Map<String, Object>> handleDepartamentoNoEncontrado(DepartamentoNoEncontradoException ex) {
-        Map<String, Object> response = responseMap("Departamento no encontrada", ex.getMessage(), HttpStatus.NOT_FOUND.value());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    }
-
-    @ExceptionHandler(ProvinciaNoEncontradaException.class)
-    public ResponseEntity<Map<String, Object>> handleProvinciaNoEncontrada(ProvinciaNoEncontradaException ex) {
-        Map<String, Object> response = responseMap("Provincia no encontrada", ex.getMessage(), HttpStatus.NOT_FOUND.value());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    }
-
-    @ExceptionHandler(DistritoNoEncontradoException.class)
-    public ResponseEntity<Map<String, Object>>handleDistritoNoEncontrado(DistritoNoEncontradoException ex) {
-        Map<String, Object> response = responseMap("Distrito no encontrada", ex.getMessage(), HttpStatus.NOT_FOUND.value());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    }
-
-    @ExceptionHandler(PersonaNoEncontradaException.class)
-    public ResponseEntity<Map<String, Object>> handlePersonaNoEncontrado(PersonaNoEncontradaException ex) {
-        Map<String, Object> response = responseMap("Usuario no encontrado", ex.getMessage(), HttpStatus.NOT_FOUND.value());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    }
 
     @ExceptionHandler(PersonaYaCuentaConDireccionException.class)
-    public ResponseEntity<Map<String, Object>> handlePersonaConDireccion(PersonaYaCuentaConDireccionException ex) {
-        Map<String, Object> response = responseMap("Direccion ya registrada", ex.getMessage(), HttpStatus.CONFLICT.value());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    public ResponseEntity<ErrorResponseDTO> handleConflictException(RuntimeException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                status.value(),
+                "Conflicto de estado",
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, status);
     }
 
-    @ExceptionHandler(PersonaNoCuentaConDireccionException.class)
-    public ResponseEntity<Map<String, Object>> handlePersonaSinDireccion(PersonaNoCuentaConDireccionException ex) {
-        Map<String, Object> response = responseMap("Sin dirección registrada", ex.getMessage(), HttpStatus.CONFLICT.value());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseDTO> handleGlobalException(Exception ex, WebRequest request) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                status.value(),
+                "Error Interno del Servidor",
+                "Ocurrió un error inesperado. Por favor, contacte al administrador."
+        );
+        return new ResponseEntity<>(errorResponse, status);
     }
-
 }

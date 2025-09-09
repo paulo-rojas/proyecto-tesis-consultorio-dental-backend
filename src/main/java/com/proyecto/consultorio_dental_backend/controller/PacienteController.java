@@ -1,8 +1,7 @@
 package com.proyecto.consultorio_dental_backend.controller;
 
-import com.proyecto.consultorio_dental_backend.dto.DireccionRequestDTO;
-import com.proyecto.consultorio_dental_backend.dto.DireccionResponseDTO;
-import com.proyecto.consultorio_dental_backend.dto.PacienteDTO;
+import com.proyecto.consultorio_dental_backend.dto.*;
+import com.proyecto.consultorio_dental_backend.service.ContactoService;
 import com.proyecto.consultorio_dental_backend.service.DireccionService;
 import com.proyecto.consultorio_dental_backend.service.PacienteService;
 import com.proyecto.consultorio_dental_backend.util.CommonUtils;
@@ -21,16 +20,18 @@ public class PacienteController {
 
     private final PacienteService pacienteService;
     private final DireccionService direccionService;
+    private final ContactoService contactoService;
 
-    public PacienteController(PacienteService pacienteService, DireccionService direccionService) {
+    public PacienteController(PacienteService pacienteService, DireccionService direccionService, ContactoService contactoService) {
         this.pacienteService = pacienteService;
         this.direccionService = direccionService;
+        this.contactoService = contactoService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<?> findAll(){
 
-        List<PacienteDTO> pacientes = pacienteService.findAll();
+        List<PacienteResponseDTO> pacientes = pacienteService.findAll();
 
         return pacientes.isEmpty()? ResponseEntity.noContent().build() : ResponseEntity.ok(pacientes);
     }
@@ -66,9 +67,9 @@ public class PacienteController {
     }
 
     @PostMapping
-    public ResponseEntity<PacienteDTO> save(@RequestBody PacienteDTO paciente) {
+    public ResponseEntity<PacienteResponseDTO> save(@RequestBody PacienteRequestDTO paciente) {
 
-        PacienteDTO pacienteGuardado = pacienteService.save(paciente);
+        PacienteResponseDTO pacienteGuardado = pacienteService.save(paciente);
 
         // Esto crea una URL como "http://localhost:8080/api/pacientes/123"
         URI location = ServletUriComponentsBuilder
@@ -80,7 +81,6 @@ public class PacienteController {
         return ResponseEntity.created(location).body(pacienteGuardado);
     }
 
-
     // Direccion
 
     @GetMapping("/{pacienteId}/direccion")
@@ -91,7 +91,7 @@ public class PacienteController {
 
     @PostMapping("/{pacienteId}/direccion")
     public ResponseEntity<DireccionResponseDTO> addDireccion(@PathVariable Integer pacienteId, @RequestBody DireccionRequestDTO direccionRequestDTO){
-        DireccionResponseDTO direccionResponseDTO = direccionService.updateDireccion(pacienteId, direccionRequestDTO);
+        DireccionResponseDTO direccionResponseDTO = direccionService.addDireccionToPersona(pacienteId, direccionRequestDTO);
         URI location = URI.create("/pacientes/" + pacienteId + "/direccion");
         return ResponseEntity.created(location).body(direccionResponseDTO);
     }
@@ -108,5 +108,32 @@ public class PacienteController {
         return ResponseEntity.noContent().build();
     }
 
+    // CONTACTO
+
+
+    @GetMapping("/{pacienteId}/contacto")
+    public ResponseEntity<ContactoDTO> findContacto(@PathVariable Integer pacienteId){
+        ContactoDTO contacto = contactoService.findContactoByPersonaId(pacienteId);
+        return ResponseEntity.ok(contacto);
+    }
+
+    @PostMapping("/{pacienteId}/contacto")
+    public ResponseEntity<ContactoDTO> addContacto(@PathVariable Integer pacienteId, @RequestBody ContactoDTO contactoDTO){
+        ContactoDTO contacto = contactoService.addContactoToPersona(pacienteId, contactoDTO);
+        URI location = URI.create("/pacientes/" + pacienteId + "/contacto");
+        return ResponseEntity.created(location).body(contacto);
+    }
+
+    @PutMapping("/{pacienteId}/contacto")
+    public ResponseEntity<ContactoDTO> updateContacto (@PathVariable Integer pacienteId, @RequestBody ContactoDTO contactoDTO){
+        ContactoDTO contacto = contactoService.updateContacto(pacienteId,contactoDTO);
+        return ResponseEntity.ok(contacto);
+    }
+
+    @DeleteMapping("/{pacienteId}/contacto")
+    public ResponseEntity<?> deleteContacto (@PathVariable Integer pacienteId){
+        contactoService.deleteContacto(pacienteId);
+        return ResponseEntity.noContent().build();
+    }
 
 }

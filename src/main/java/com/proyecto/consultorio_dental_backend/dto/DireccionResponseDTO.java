@@ -11,7 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DireccionResponseDTO {
 
-    private Integer id;
     private String detalle;
     private String distrito;
     private String provincia;
