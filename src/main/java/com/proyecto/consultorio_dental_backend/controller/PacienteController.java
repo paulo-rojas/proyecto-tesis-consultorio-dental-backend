@@ -5,6 +5,7 @@ import com.proyecto.consultorio_dental_backend.service.ContactoService;
 import com.proyecto.consultorio_dental_backend.service.DireccionService;
 import com.proyecto.consultorio_dental_backend.service.PacienteService;
 import com.proyecto.consultorio_dental_backend.util.CommonUtils;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -47,11 +48,6 @@ public class PacienteController {
     @GetMapping("/dni/{dni}")
     public ResponseEntity<?> findByDni(@PathVariable String dni){
 
-        if (!CommonUtils.isValidDni(dni)){
-            Map<String, String> errorMap = Map.of("Error", String.format("El dni ingresado: %s no es válido", dni));
-            return ResponseEntity.badRequest().body(errorMap);
-        }
-
         return Optional.ofNullable(pacienteService.findByDni(dni))
                 .map(ResponseEntity::ok)
                 .orElseGet( () -> ResponseEntity.noContent().build());
@@ -62,12 +58,12 @@ public class PacienteController {
     public ResponseEntity<?> findByNombreCompletoLike
             (@RequestParam(value = "nombreCompleto", defaultValue = "") String nombre){
 
-
-        return null;
+        List<PacienteResponseDTO> pacientes = pacienteService.findByNombreCompletoLike(nombre);
+        return pacientes.isEmpty()? ResponseEntity.noContent().build() : ResponseEntity.ok(pacientes);
     }
 
     @PostMapping
-    public ResponseEntity<PacienteResponseDTO> save(@RequestBody PacienteRequestDTO paciente) {
+    public ResponseEntity<PacienteResponseDTO> save(@Valid @RequestBody PacienteRequestDTO paciente) {
 
         PacienteResponseDTO pacienteGuardado = pacienteService.save(paciente);
 
@@ -144,6 +140,5 @@ public class PacienteController {
         contactoService.deleteContacto(pacienteId);
         return ResponseEntity.noContent().build();
     }
-
 
 }

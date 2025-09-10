@@ -41,6 +41,17 @@ public class ControllerAdvice {
         return new ResponseEntity<>(errorResponse, status);
     }
 
+    @ExceptionHandler(DniInvalidoException.class)
+    public ResponseEntity<ErrorResponseDTO> handleBadRequestDniInvalidException(RuntimeException ex, WebRequest request){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                status.value(),
+                "DNI inválido",
+                ex.getMessage()
+                );
+        return new ResponseEntity<>(errorResponse, status);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleGlobalException(Exception ex, WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;

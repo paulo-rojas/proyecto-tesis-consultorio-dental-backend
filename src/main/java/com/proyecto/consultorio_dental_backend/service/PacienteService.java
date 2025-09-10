@@ -18,4 +18,6 @@ public interface PacienteService {
     void delete(Integer id);
 
     void updateOcupacion(Integer pacienteId, String ocupacion);
+
+    List<PacienteResponseDTO> findByNombreCompletoLike(String nombre);
 }

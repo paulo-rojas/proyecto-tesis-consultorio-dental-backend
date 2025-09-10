@@ -1,5 +1,8 @@
 package com.proyecto.consultorio_dental_backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.proyecto.consultorio_dental_backend.util.NullAsEmptyStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +23,14 @@ public class PacienteResponseDTO {
         private String apellidoMaterno;
         private LocalDate fechaNacimiento;
         private Integer edad;
+
+        @JsonSerialize(nullsUsing = NullAsEmptyStringSerializer.class)
         private ContactoDTO contacto;
+
+        @JsonSerialize(nullsUsing = NullAsEmptyStringSerializer.class)
         private String ocupacion;
+
+        @JsonSerialize(nullsUsing = NullAsEmptyStringSerializer.class)
         private DireccionResponseDTO direccion;
 
 }

@@ -32,7 +32,7 @@ public abstract class PersonaEntity {
     @JoinColumn(name = "direccion_id", referencedColumnName = "id")
     private DireccionEntity direccion;
 
-    // MANTENER LOS DATOS QUE INGRESEN EN MAYÚSCULAS
+
     public void setNombres(String nombres) {
         this.nombres = (nombres != null) ? nombres.toUpperCase() : null;
     }
@@ -43,5 +43,9 @@ public abstract class PersonaEntity {
 
     public void setApellidoMaterno(String apellidoMaterno) {
         this.apellidoMaterno = (apellidoMaterno != null) ? apellidoMaterno.toUpperCase() : null;
+    }
+
+    public String getNombreCompleto(){
+        return this.apellidoPaterno + " " + this.apellidoMaterno + " " + this.nombres;
     }
 }

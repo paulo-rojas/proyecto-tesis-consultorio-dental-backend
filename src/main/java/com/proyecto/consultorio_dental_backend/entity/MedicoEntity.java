@@ -18,4 +18,12 @@ public class MedicoEntity extends PersonaEntity {
     private String especialidad;
     private String codigoColegiatura;
 
+    public void setEspecialidad(String especialidad){
+        this.especialidad = (especialidad != null) ? especialidad.toUpperCase() : null;
+    }
+
+    public void setCodigoColegiatura(String codigoColegiatura){
+        this.codigoColegiatura = (codigoColegiatura != null) ? codigoColegiatura.toUpperCase() : null;
+    }
+
 }

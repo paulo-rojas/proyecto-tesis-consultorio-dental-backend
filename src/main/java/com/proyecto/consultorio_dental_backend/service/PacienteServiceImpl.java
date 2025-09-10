@@ -3,9 +3,11 @@ package com.proyecto.consultorio_dental_backend.service;
 import com.proyecto.consultorio_dental_backend.dto.PacienteRequestDTO;
 import com.proyecto.consultorio_dental_backend.dto.PacienteResponseDTO;
 import com.proyecto.consultorio_dental_backend.entity.PacienteEntity;
+import com.proyecto.consultorio_dental_backend.exception.DniInvalidoException;
 import com.proyecto.consultorio_dental_backend.exception.PersonaNoEncontradaException;
 import com.proyecto.consultorio_dental_backend.mapper.PacienteMapper;
 import com.proyecto.consultorio_dental_backend.repository.PacienteRepository;
+import com.proyecto.consultorio_dental_backend.util.CommonUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +24,20 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Override
     public PacienteResponseDTO findByDni(String dni) {
-        return pacienteRepository.findByDni(dni).map(PacienteMapper::toDTO)
+
+        if (!CommonUtils.isValidDni(dni)){
+            throw new DniInvalidoException(dni);
+        }
+
+        return pacienteRepository.findByDni(dni)
+                .map(PacienteMapper::toDTO)
                 .orElseThrow( () -> new PersonaNoEncontradaException(null));
     }
 
     @Override
     public PacienteResponseDTO findById(Integer id) {
-        return pacienteRepository.findById(id).map(PacienteMapper::toDTO)
+        return pacienteRepository.findById(id)
+                .map(PacienteMapper::toDTO)
                 .orElseThrow( () -> new PersonaNoEncontradaException(id));
     }
 
@@ -52,7 +61,10 @@ public class PacienteServiceImpl implements PacienteService {
     @Override
     @Transactional
     public void delete(Integer id) {
-        PacienteEntity entity = pacienteRepository.findById(id).orElseThrow(() -> new PersonaNoEncontradaException(id));
+        PacienteEntity entity = pacienteRepository
+                .findById(id)
+                .orElseThrow(() -> new PersonaNoEncontradaException(id));
+
         entity.setEstado(false);
         pacienteRepository.save(entity);
     }
@@ -65,6 +77,14 @@ public class PacienteServiceImpl implements PacienteService {
 
         entity.setOcupacion(ocupacion);
         pacienteRepository.save(entity);
+    }
+
+    @Override
+    public List<PacienteResponseDTO> findByNombreCompletoLike(String nombreCompleto) {
+        return pacienteRepository.findByNombreCompletoLike("%"+nombreCompleto+"%")
+                .stream()
+                .map(PacienteMapper::toDTO)
+                .toList();
     }
 
 }
