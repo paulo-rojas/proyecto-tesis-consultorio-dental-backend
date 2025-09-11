@@ -1,10 +1,13 @@
 package com.proyecto.consultorio_dental_backend.controller;
 
 import com.proyecto.consultorio_dental_backend.dto.*;
+import com.proyecto.consultorio_dental_backend.dto.request.DireccionRequestDTO;
+import com.proyecto.consultorio_dental_backend.dto.request.PacienteRequestDTO;
+import com.proyecto.consultorio_dental_backend.dto.response.DireccionResponseDTO;
+import com.proyecto.consultorio_dental_backend.dto.response.PacienteResponseDTO;
 import com.proyecto.consultorio_dental_backend.service.ContactoService;
 import com.proyecto.consultorio_dental_backend.service.DireccionService;
 import com.proyecto.consultorio_dental_backend.service.PacienteService;
-import com.proyecto.consultorio_dental_backend.util.CommonUtils;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +15,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController

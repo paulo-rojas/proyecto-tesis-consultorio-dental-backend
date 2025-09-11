@@ -1,7 +1,7 @@
 package com.proyecto.consultorio_dental_backend.mapper;
 
-import com.proyecto.consultorio_dental_backend.dto.PacienteRequestDTO;
-import com.proyecto.consultorio_dental_backend.dto.PacienteResponseDTO;
+import com.proyecto.consultorio_dental_backend.dto.request.PacienteRequestDTO;
+import com.proyecto.consultorio_dental_backend.dto.response.PacienteResponseDTO;
 import com.proyecto.consultorio_dental_backend.entity.PacienteEntity;
 import com.proyecto.consultorio_dental_backend.util.CommonUtils;
 import org.slf4j.Logger;

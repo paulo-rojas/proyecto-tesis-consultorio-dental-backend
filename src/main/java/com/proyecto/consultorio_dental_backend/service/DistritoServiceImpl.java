@@ -1,6 +1,6 @@
 package com.proyecto.consultorio_dental_backend.service;
 
-import com.proyecto.consultorio_dental_backend.dto.DistritoDTO;
+import com.proyecto.consultorio_dental_backend.dto.response.DistritoResponseDTO;
 import com.proyecto.consultorio_dental_backend.exception.DepartamentoNoEncontradoException;
 import com.proyecto.consultorio_dental_backend.exception.DistritoNoEncontradoException;
 import com.proyecto.consultorio_dental_backend.exception.ProvinciaNoEncontradaException;
@@ -28,7 +28,7 @@ public class DistritoServiceImpl implements DistritoService{
     }
 
     @Override
-    public DistritoDTO findById(Integer id) {
+    public DistritoResponseDTO findById(Integer id) {
         return distritoRepository
                 .findById(id)
                 .map(DistritoMapper::toDTO)
@@ -36,7 +36,7 @@ public class DistritoServiceImpl implements DistritoService{
     }
 
     @Override
-    public List<DistritoDTO> findAllByProvinciaId(Integer provinciaId) {
+    public List<DistritoResponseDTO> findAllByProvinciaId(Integer provinciaId) {
 
         if (!provinciaRepository.existsById(provinciaId)){
             throw new ProvinciaNoEncontradaException(provinciaId);
@@ -49,7 +49,7 @@ public class DistritoServiceImpl implements DistritoService{
     }
 
     @Override
-    public List<DistritoDTO> findAllByDepartamentoId(Integer departamentoId) {
+    public List<DistritoResponseDTO> findAllByDepartamentoId(Integer departamentoId) {
 
         if(!departamentoRepository.existsById(departamentoId)){
             throw new DepartamentoNoEncontradoException(departamentoId);
@@ -62,7 +62,7 @@ public class DistritoServiceImpl implements DistritoService{
     }
 
     @Override
-    public List<DistritoDTO> findAll() {
+    public List<DistritoResponseDTO> findAll() {
         return distritoRepository.findAll()
                 .stream()
                 .map(DistritoMapper::toDTO)
@@ -70,13 +70,13 @@ public class DistritoServiceImpl implements DistritoService{
     }
 
     @Override
-    public Page<DistritoDTO> findAllPaged(Pageable pageable) {
+    public Page<DistritoResponseDTO> findAllPaged(Pageable pageable) {
         return distritoRepository.findAllPaged(pageable)
                 .map(DistritoMapper::toDTO);
     }
 
     @Override
-    public Page<DistritoDTO> findAllByNombreLikePaged(Pageable pageable, String nombre) {
+    public Page<DistritoResponseDTO> findAllByNombreLikePaged(Pageable pageable, String nombre) {
         return distritoRepository.findAllByNombreLikePaged("%" + nombre + "%",pageable)
                 .map(DistritoMapper::toDTO);
     }

@@ -1,7 +1,7 @@
 package com.proyecto.consultorio_dental_backend.mapper;
 
-import com.proyecto.consultorio_dental_backend.dto.DireccionRequestDTO;
-import com.proyecto.consultorio_dental_backend.dto.DireccionResponseDTO;
+import com.proyecto.consultorio_dental_backend.dto.request.DireccionRequestDTO;
+import com.proyecto.consultorio_dental_backend.dto.response.DireccionResponseDTO;
 import com.proyecto.consultorio_dental_backend.entity.DireccionEntity;
 import com.proyecto.consultorio_dental_backend.entity.DistritoEntity;
 import org.springframework.stereotype.Service;

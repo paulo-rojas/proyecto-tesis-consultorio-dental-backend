@@ -1,5 +1,6 @@
-package com.proyecto.consultorio_dental_backend.dto;
+package com.proyecto.consultorio_dental_backend.dto.request;
 
+import com.proyecto.consultorio_dental_backend.dto.ContactoDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;

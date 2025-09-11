@@ -1,21 +1,18 @@
 package com.proyecto.consultorio_dental_backend.service;
 
-import com.proyecto.consultorio_dental_backend.dto.MedicoRequestDTO;
-import com.proyecto.consultorio_dental_backend.dto.MedicoResponseGeneralDTO;
-import com.proyecto.consultorio_dental_backend.dto.MedicoResponseSimpleDTO;
+import com.proyecto.consultorio_dental_backend.dto.request.MedicoRequestDTO;
+import com.proyecto.consultorio_dental_backend.dto.response.MedicoResponseGeneralDTO;
+import com.proyecto.consultorio_dental_backend.dto.response.MedicoResponseSimpleDTO;
 import com.proyecto.consultorio_dental_backend.entity.MedicoEntity;
 import com.proyecto.consultorio_dental_backend.exception.DniInvalidoException;
 import com.proyecto.consultorio_dental_backend.exception.PersonaNoEncontradaException;
 import com.proyecto.consultorio_dental_backend.mapper.MedicoMapper;
-import com.proyecto.consultorio_dental_backend.mapper.PacienteMapper;
 import com.proyecto.consultorio_dental_backend.repository.MedicoRepository;
 import com.proyecto.consultorio_dental_backend.util.CommonUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MedicoServiceImpl implements MedicoService{

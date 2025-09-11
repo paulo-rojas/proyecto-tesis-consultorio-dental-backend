@@ -1,7 +1,6 @@
 package com.proyecto.consultorio_dental_backend.controller;
 
-import com.proyecto.consultorio_dental_backend.dto.ProvinciaDTO;
-import com.proyecto.consultorio_dental_backend.entity.ProvinciaEntity;
+import com.proyecto.consultorio_dental_backend.dto.response.ProvinciaResponseDTO;
 import com.proyecto.consultorio_dental_backend.service.ProvinciaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,7 @@ public class ProvinciaController {
     }
 
     @GetMapping("/find-all-by-departamento-id/{departamento_id}")
-    public ResponseEntity<List<ProvinciaDTO>> findAllByDepartamentoId(@PathVariable Integer departamento_id){
+    public ResponseEntity<List<ProvinciaResponseDTO>> findAllByDepartamentoId(@PathVariable Integer departamento_id){
         return Optional.of(provinciaService.findAllByDepartamentoId(departamento_id))
                 .filter(list -> !list.isEmpty())
                 .map(ResponseEntity::ok)
@@ -31,7 +30,7 @@ public class ProvinciaController {
     }
 
     @GetMapping("/find-by-id/{id}")
-    public ResponseEntity<ProvinciaDTO> findById (@PathVariable Integer id){
+    public ResponseEntity<ProvinciaResponseDTO> findById (@PathVariable Integer id){
         return provinciaService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.noContent().build());

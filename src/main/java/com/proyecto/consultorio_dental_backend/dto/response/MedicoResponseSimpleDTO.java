@@ -1,4 +1,4 @@
-package com.proyecto.consultorio_dental_backend.dto;
+package com.proyecto.consultorio_dental_backend.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProvinciaDTO {
+public class MedicoResponseSimpleDTO {
+
     private Integer id;
-    private String nombre;
-    private String departamento;
+    private String nombreCompleto;
 }

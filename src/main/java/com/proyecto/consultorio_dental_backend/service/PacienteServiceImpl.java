@@ -1,7 +1,7 @@
 package com.proyecto.consultorio_dental_backend.service;
 
-import com.proyecto.consultorio_dental_backend.dto.PacienteRequestDTO;
-import com.proyecto.consultorio_dental_backend.dto.PacienteResponseDTO;
+import com.proyecto.consultorio_dental_backend.dto.request.PacienteRequestDTO;
+import com.proyecto.consultorio_dental_backend.dto.response.PacienteResponseDTO;
 import com.proyecto.consultorio_dental_backend.entity.PacienteEntity;
 import com.proyecto.consultorio_dental_backend.exception.DniInvalidoException;
 import com.proyecto.consultorio_dental_backend.exception.PersonaNoEncontradaException;

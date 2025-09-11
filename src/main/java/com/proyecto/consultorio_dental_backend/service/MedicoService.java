@@ -1,8 +1,8 @@
 package com.proyecto.consultorio_dental_backend.service;
 
-import com.proyecto.consultorio_dental_backend.dto.MedicoRequestDTO;
-import com.proyecto.consultorio_dental_backend.dto.MedicoResponseGeneralDTO;
-import com.proyecto.consultorio_dental_backend.dto.MedicoResponseSimpleDTO;
+import com.proyecto.consultorio_dental_backend.dto.request.MedicoRequestDTO;
+import com.proyecto.consultorio_dental_backend.dto.response.MedicoResponseGeneralDTO;
+import com.proyecto.consultorio_dental_backend.dto.response.MedicoResponseSimpleDTO;
 
 import java.util.List;
 

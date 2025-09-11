@@ -1,4 +1,4 @@
-package com.proyecto.consultorio_dental_backend.dto;
+package com.proyecto.consultorio_dental_backend.dto.response;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.proyecto.consultorio_dental_backend.util.NullAsEmptyStringSerializer;

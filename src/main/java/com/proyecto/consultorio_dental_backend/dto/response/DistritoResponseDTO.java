@@ -1,4 +1,4 @@
-package com.proyecto.consultorio_dental_backend.dto;
+package com.proyecto.consultorio_dental_backend.dto.response;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DistritoDTO {
+public class DistritoResponseDTO {
     private Integer id;
     private String nombre;
     private String provincia;

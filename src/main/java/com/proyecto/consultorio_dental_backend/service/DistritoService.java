@@ -1,24 +1,23 @@
 package com.proyecto.consultorio_dental_backend.service;
 
-import com.proyecto.consultorio_dental_backend.dto.DistritoDTO;
+import com.proyecto.consultorio_dental_backend.dto.response.DistritoResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface DistritoService {
 
-    DistritoDTO findById(Integer id);
+    DistritoResponseDTO findById(Integer id);
 
-    List<DistritoDTO> findAllByProvinciaId (Integer provincia_id);
+    List<DistritoResponseDTO> findAllByProvinciaId (Integer provincia_id);
 
-    List<DistritoDTO> findAllByDepartamentoId(Integer provinciaId);
+    List<DistritoResponseDTO> findAllByDepartamentoId(Integer provinciaId);
 
-    List<DistritoDTO> findAll();
+    List<DistritoResponseDTO> findAll();
 
-    Page<DistritoDTO> findAllPaged(Pageable pageable);
+    Page<DistritoResponseDTO> findAllPaged(Pageable pageable);
 
-    Page<DistritoDTO> findAllByNombreLikePaged(Pageable pageable, String nombre);
+    Page<DistritoResponseDTO> findAllByNombreLikePaged(Pageable pageable, String nombre);
 
 }

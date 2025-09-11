@@ -1,6 +1,6 @@
 package com.proyecto.consultorio_dental_backend.controller;
 
-import com.proyecto.consultorio_dental_backend.dto.ErrorResponseDTO;
+import com.proyecto.consultorio_dental_backend.dto.response.ErrorResponseDTO;
 import com.proyecto.consultorio_dental_backend.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
