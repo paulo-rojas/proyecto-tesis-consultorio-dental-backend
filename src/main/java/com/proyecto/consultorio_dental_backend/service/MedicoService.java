@@ -8,24 +8,22 @@ import java.util.List;
 
 public interface MedicoService {
 
-    MedicoResponseSimpleDTO findResponseSimpleById(Integer id);
+    MedicoResponseGeneralDTO findById(Integer id);
 
-    MedicoResponseGeneralDTO findResponseGeneralById(Integer id);
+    MedicoResponseGeneralDTO findByDni(String dni);
 
-    MedicoResponseSimpleDTO findByDni(String dni);
+    List<MedicoResponseGeneralDTO> findByNombreCompletoLike(String nombre);
 
-    List<MedicoResponseSimpleDTO> findByNombreCompletoLike(String nombre);
+    List<MedicoResponseGeneralDTO> findByEspecialidad(String especialidad);
 
-    List<MedicoResponseSimpleDTO> findByEspecialidad(String especialidad);
+    List<MedicoResponseGeneralDTO> findAll();
 
-    List<MedicoResponseSimpleDTO> findAll();
+    MedicoResponseGeneralDTO save(MedicoRequestDTO medico);
 
-    MedicoResponseSimpleDTO save(MedicoRequestDTO medico);
+    boolean delete(Integer id);
 
-    void delete(Integer id);
+    boolean updateEspecialidad(Integer medicoId, String especialidad);
 
-    void updateEspecialidad(Integer medicoId, String especialidad);
-
-    void updateCodigoColegiatura(Integer medicoId, String codigoColegiatura);
+    boolean updateCodigoColegiatura(Integer medicoId, String codigoColegiatura);
 
 }

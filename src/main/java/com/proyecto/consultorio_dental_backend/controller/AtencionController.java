@@ -21,21 +21,21 @@ public class AtencionController {
     }
 
     @GetMapping
-    public ResponseEntity<?> findAll (){
+    public ResponseEntity<?> getAll (){
         List<AtencionDTO> atenciones = atencionService.findAll();
 
         return atenciones.isEmpty()? ResponseEntity.noContent().build() : ResponseEntity.ok(atenciones);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById (@PathVariable Integer id){
+    public ResponseEntity<?> getById (@PathVariable Integer id){
         return Optional.ofNullable(atencionService.findById(id))
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.noContent().build());
     }
 
     @PostMapping
-    public ResponseEntity<?> save (@Valid @RequestBody AtencionDTO atencionDTO){
+    public ResponseEntity<?> create (@Valid @RequestBody AtencionDTO atencionDTO){
         AtencionDTO atencionGuardada = atencionService.save(atencionDTO);
         return ResponseEntity.ok(atencionGuardada);
     }

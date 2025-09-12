@@ -2,7 +2,6 @@ package com.proyecto.consultorio_dental_backend.service;
 
 import com.proyecto.consultorio_dental_backend.dto.request.MedicoRequestDTO;
 import com.proyecto.consultorio_dental_backend.dto.response.MedicoResponseGeneralDTO;
-import com.proyecto.consultorio_dental_backend.dto.response.MedicoResponseSimpleDTO;
 import com.proyecto.consultorio_dental_backend.entity.MedicoEntity;
 import com.proyecto.consultorio_dental_backend.exception.DniInvalidoException;
 import com.proyecto.consultorio_dental_backend.exception.PersonaNoEncontradaException;
@@ -24,80 +23,75 @@ public class MedicoServiceImpl implements MedicoService{
     }
 
     @Override
-    public MedicoResponseSimpleDTO findResponseSimpleById(Integer id) {
-        return medicoRepository.findById(id)
-                .map(MedicoMapper::toSimpleDTO)
-                .orElseThrow( () -> new PersonaNoEncontradaException(id));
-    }
-
-    @Override
-    public MedicoResponseGeneralDTO findResponseGeneralById(Integer id) {
+    public MedicoResponseGeneralDTO findById(Integer id) {
         return medicoRepository.findById(id)
                 .map(MedicoMapper::toGeneralDTO)
                 .orElseThrow( () -> new PersonaNoEncontradaException(id));
     }
 
     @Override
-    public MedicoResponseSimpleDTO findByDni(String dni) {
+    public MedicoResponseGeneralDTO findByDni(String dni) {
 
         if (!CommonUtils.isValidDni(dni)){
             throw new DniInvalidoException(dni);
         }
 
         return medicoRepository.findByDni(dni)
-                .map(MedicoMapper::toSimpleDTO)
+                .map(MedicoMapper::toGeneralDTO)
                 .orElseThrow();
     }
 
     @Override
-    public List<MedicoResponseSimpleDTO> findByNombreCompletoLike(String nombreCompleto) {
+    public List<MedicoResponseGeneralDTO> findByNombreCompletoLike(String nombreCompleto) {
         return medicoRepository.findByNombreCompletoLike("%"+nombreCompleto+"%")
                 .stream()
-                .map(MedicoMapper::toSimpleDTO)
+                .map(MedicoMapper::toGeneralDTO)
                 .toList();
     }
 
     @Override
-    public List<MedicoResponseSimpleDTO> findByEspecialidad(String especialidad) {
+    public List<MedicoResponseGeneralDTO> findByEspecialidad(String especialidad) {
         return medicoRepository.findByEspecialidad("%"+especialidad+"%")
                 .stream()
-                .map(MedicoMapper::toSimpleDTO)
+                .map(MedicoMapper::toGeneralDTO)
                 .toList();
     }
 
     @Override
-    public List<MedicoResponseSimpleDTO> findAll() {
+    public List<MedicoResponseGeneralDTO> findAll() {
         return  medicoRepository.findAll()
                 .stream()
-                .map(MedicoMapper::toSimpleDTO)
+                .map(MedicoMapper::toGeneralDTO)
                 .toList();
     }
 
     @Override
     @Transactional
-    public MedicoResponseSimpleDTO save(MedicoRequestDTO medico) {
+    public MedicoResponseGeneralDTO save(MedicoRequestDTO medico) {
         if (medicoRepository.existsByDni(medico.getDni())){
             throw new RuntimeException("Médico ya tiene una cuenta registrada");
         }
 
         MedicoEntity medicoEntity = MedicoMapper.toEntity(medico);
         medicoRepository.save(medicoEntity);
-        return MedicoMapper.toSimpleDTO(medicoEntity);
+        return MedicoMapper.toGeneralDTO(medicoEntity);
 
     }
 
     @Override
-    public void delete(Integer id) {
-
+    public boolean delete(Integer id) {
+        return false;
     }
 
     @Override
-    public void updateEspecialidad(Integer medicoId, String especialidad) {
+    public boolean updateEspecialidad(Integer medicoId, String especialidad) {
 
+        return false;
     }
 
     @Override
-    public void updateCodigoColegiatura(Integer medicoId, String codigoColegiatura) {
+    public boolean updateCodigoColegiatura(Integer medicoId, String codigoColegiatura) {
 
+        return false;
     }
 }
